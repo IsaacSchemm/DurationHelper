@@ -12,7 +12,7 @@ namespace DurationHelper {
             return await GetByNameAsync(url) ?? await GetByContentTypeAsync(url);
         }
 
-        private static async Task<TimeSpan?> GetByNameAsync(Uri url) {
+        private static async Task<TimeSpan?> GetByNameAsync(Uri url, string youTubeKey = null) {
             if (url == null) throw new ArgumentNullException();
 
             if (url.AbsolutePath.EndsWith(".mp4", StringComparison.InvariantCultureIgnoreCase)) {
@@ -23,6 +23,10 @@ namespace DurationHelper {
                 return await HLS.GetPlaylistDurationAsync(url);
             } else if (url.Authority.EndsWith("vimeo.com")) {
                 return await Vimeo.GetDurationAsync(url);
+            } else if (url.Authority.EndsWith("youtube.com") || url.Authority.EndsWith("youtu.be")) {
+                return youTubeKey == null
+                    ? null
+                    : await new YouTube(youTubeKey).GetDurationAsync(url);
             } else {
                 return null;
             }
