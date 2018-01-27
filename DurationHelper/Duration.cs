@@ -21,6 +21,8 @@ namespace DurationHelper {
             } else if (url.AbsolutePath.EndsWith(".m3u8", StringComparison.InvariantCultureIgnoreCase)) {
                 // Assume HLS
                 return await HLS.GetPlaylistDurationAsync(url);
+            } else if (url.Authority.EndsWith("vimeo.com")) {
+                return await Vimeo.GetDurationAsync(url);
             } else {
                 return null;
             }
