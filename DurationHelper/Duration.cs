@@ -31,7 +31,7 @@ namespace DurationHelper {
 
             // Get content type
             HttpWebRequest req = WebRequest.CreateHttp(url);
-            req.UserAgent = $"DurationHelper/1.0 (https://github.com/IsaacSchemm/DurationHelper)";
+            req.UserAgent = Shared.UserAgent;
             req.Method = "HEAD";
             using (var resp = await req.GetResponseAsync()) {
                 switch (resp.ContentType) {

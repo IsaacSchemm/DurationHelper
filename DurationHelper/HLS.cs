@@ -9,7 +9,7 @@ namespace DurationHelper {
             if (url == null) throw new ArgumentNullException();
 
             HttpWebRequest req = WebRequest.CreateHttp(url);
-            req.UserAgent = $"DurationHelper/1.0 (https://github.com/IsaacSchemm/DurationHelper)";
+            req.UserAgent = Shared.UserAgent;
             using (var resp = await req.GetResponseAsync()) {
                 using (var sr = new StreamReader(resp.GetResponseStream())) {
                     string line;
@@ -31,7 +31,7 @@ namespace DurationHelper {
             TimeSpan ts = TimeSpan.Zero;
 
             HttpWebRequest req = WebRequest.CreateHttp(url);
-            req.UserAgent = $"DurationHelper/1.0 (https://github.com/IsaacSchemm/DurationHelper)";
+            req.UserAgent = Shared.UserAgent;
             using (var resp = await req.GetResponseAsync()) {
                 using (var sr = new StreamReader(resp.GetResponseStream())) {
                     return await GetChunklistDurationAsync(sr);

@@ -45,7 +45,7 @@ namespace DurationHelper {
             if (url == null) throw new ArgumentNullException();
 
             HttpWebRequest req = WebRequest.CreateHttp(url);
-            req.UserAgent = $"DurationHelper/1.0 (https://github.com/IsaacSchemm/DurationHelper)";
+            req.UserAgent = Shared.UserAgent;
             req.AddRange(0, 256);
             using (var resp = await req.GetResponseAsync()) {
                 using (var stream = resp.GetResponseStream()) {
