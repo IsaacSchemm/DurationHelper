@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DurationHelper {
-    public class MP4 {
+    public static class MP4 {
         public static async Task<TimeSpan?> GetDurationAsync(Stream stream) {
             if (stream == null) throw new ArgumentNullException();
             byte[] searchFor = Encoding.UTF8.GetBytes("mvhd");
