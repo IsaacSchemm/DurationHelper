@@ -7,19 +7,27 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Net;
 using DurationHelper;
+using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace FunctionApp
 {
     public static class GetDuration
     {
         [FunctionName("get-duration")]
-        public static async Task<double?> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)]HttpRequest req, TraceWriter log)
+        public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)]HttpRequest req, TraceWriter log)
         {
             if (!Uri.TryCreate(req.Query["url"], UriKind.Absolute, out Uri uri)) {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                return new BadRequestErrorMessageResult("The url parmeter is required.");
             }
 
-            return (await Duration.GetAsync(uri))?.TotalSeconds;
+            try {
+                return new OkObjectResult((await Duration.GetAsync(uri))?.TotalSeconds);
+            } catch (YouTubeException ex) {
+                return new StatusCodeResult(ex.Reasons.Contains("quotaExceeded")
+                    ? 429
+                    : 500);
+            }
         }
     }
 }

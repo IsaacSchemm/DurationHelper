@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace DurationHelper {
     public static class Duration {
-        public static async Task<TimeSpan?> GetAsync(Uri url) {
+        public static async Task<TimeSpan?> GetAsync(Uri url, string youTubeKey = null) {
             if (url == null) throw new ArgumentNullException();
 
-            return await GetByNameAsync(url) ?? await GetByContentTypeAsync(url);
+            return await GetByNameAsync(url, youTubeKey: youTubeKey) ?? await GetByContentTypeAsync(url);
         }
 
         private static async Task<TimeSpan?> GetByNameAsync(Uri url, string youTubeKey = null) {

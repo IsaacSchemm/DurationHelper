@@ -98,16 +98,8 @@ namespace DurationHelper {
                         return XmlConvert.ToTimeSpan(obj.items[0].contentDetails.duration);
                     }
                 }
-            } catch (WebException ex) {
-                using (var sr = new StreamReader(ex.Response.GetResponseStream())) {
-                    var obj = JsonConvert.DeserializeAnonymousType(await sr.ReadToEndAsync(), new {
-                        error = new {
-                            code = 0,
-                            message = "",
-                        }
-                    });
-                    throw new YouTubeException(obj.error.message, ex);
-                }
+            } catch (WebException ex) when (ex.Response is HttpWebResponse r) {
+                throw await YouTubeException.FromHttpWebResponseAsync(r);
             }
         }
 
