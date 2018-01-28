@@ -34,8 +34,8 @@ namespace FunctionApp
                         ? 429
                         : 502);
                 }
-            } catch (WebException ex) when ((ex.Response as HttpWebResponse)?.StatusCode == HttpStatusCode.NotFound) {
-                return new OkObjectResult(null);
+            } catch (WebException) {
+                return new StatusCodeResult(502);
             } catch (Exception) {
                 return new InternalServerErrorResult();
             }
