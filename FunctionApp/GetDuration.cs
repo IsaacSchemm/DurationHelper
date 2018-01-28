@@ -22,7 +22,10 @@ namespace FunctionApp
             }
 
             try {
-                return new OkObjectResult((await Duration.GetAsync(uri))?.TotalSeconds);
+                return new OkObjectResult((await Duration.GetAsync(
+                    uri,
+                    youTubeKey: Environment.GetEnvironmentVariable("YouTubeKey")
+                ))?.TotalSeconds);
             } catch (YouTubeException ex) {
                 return new StatusCodeResult(ex.Reasons.Contains("quotaExceeded")
                     ? 429
