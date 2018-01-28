@@ -14,7 +14,7 @@ namespace DurationHelper {
             _key = key ?? throw new ArgumentNullException();
         }
 
-        public static YouTubeInfo ParseUrl(Uri url) {
+        public static YouTubeUrlInfo ParseUrl(Uri url) {
             string getQueryVariable(Uri u, string variable) {
                 var query = u.Query;
                 if (query.StartsWith("?")) query = query.Substring(1);
@@ -36,14 +36,14 @@ namespace DurationHelper {
             if (url.Authority.EndsWith("youtube.com")) {
                 var v = getQueryVariable(url, "v");
                 if (v != null) {
-                    return new YouTubeInfo {
+                    return new YouTubeUrlInfo {
                         id = v,
                         start = asNumber(getQueryVariable(url, "start")),
                         end = asNumber(getQueryVariable(url, "end")),
                         autoplay = getQueryVariable(url, "autoplay") == "1",
                     };
                 } else if (url.AbsolutePath.StartsWith("/embed/")) {
-                    return new YouTubeInfo {
+                    return new YouTubeUrlInfo {
                         id = url.AbsolutePath.Substring("/embed/".Length),
                         start = asNumber(getQueryVariable(url, "start")),
                         end = asNumber(getQueryVariable(url, "end")),
@@ -67,7 +67,7 @@ namespace DurationHelper {
                         sec += int.Parse(m.Groups[1].Value);
                     }
                 }
-                return new YouTubeInfo {
+                return new YouTubeUrlInfo {
                     id = url.AbsolutePath.Substring(1),
                     start = sec,
                     end = null,
