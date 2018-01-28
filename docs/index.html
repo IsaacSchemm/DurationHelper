@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>DurationHelper</title>
+  </head>
+  <body>
+    <h1>DurationHelper</h1>
+    <p>DurationHelper is a .NET Standard library that does its best to
+      determine the duration of a video when given its URL.<br>
+    </p>
+    <p>Supported formats:<br>
+    </p>
+    <ul>
+      <li>MP4 (when the <a
+href="https://www.adobe.com/devnet/video/articles/mp4_movie_atom.html#articlecontentAdobe_numberedheader_0">moov
+
+
+
+          atom</a> is near the start of the file)<br>
+      </li>
+      <li>HLS video-on-demand (VOD)</li>
+      <li>YouTube</li>
+      <li>Vimeo</li>
+    </ul>
+    <p>DurationHelper can also extract the ID and start, end, and
+      autoplay parameters from a YouTube URL. Full (<tt>youtube.com</tt>)
+      and short (<tt>youtu.be</tt>) URLs are supported.<br>
+    </p>
+    <h2>Azure Functions API</h2>
+    <p>The source code to DurationHelper includes an Azure Functions
+      project. If the application you're working on doesn't use .NET,
+      you could deploy this project to your Azure account (using a
+      Consumption plan) and access it over HTTP.<br>
+    </p>
+    <h3>/api/get-duration?url={url}</h3>
+    <p>Tries to get the duration of a video. Although fractional seconds
+      are sometimes included, some formats are only accurate to the
+      nearest second.<br>
+    </p>
+    <h4>HTTP response codes<br>
+    </h4>
+    <table width="300" cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td valign="top">200<br>
+          </td>
+          <td valign="top">Duration found<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">204<br>
+          </td>
+          <td valign="top">Duration unknown<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">403<br>
+          </td>
+          <td valign="top">Azure web app stopped<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">429<br>
+          </td>
+          <td valign="top">YouTube API quota exceeded<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">500<br>
+          </td>
+          <td valign="top">Unknown error occurred<br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <h4>Example Request<br>
+    </h4>
+    <pre>GET /api/get-duration?url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DyrDO1zGqJXg</pre>
+    <h4>Example Response (application/json)<br>
+    </h4>
+    <pre>178.0<br></pre>
+    <h3>/api/parse-youtube-url?url={url}</h3>
+    <p>Extracts the ID and a few parameters from a YouTube URL.<br>
+    </p>
+    <h4>HTTP response codes<br>
+    </h4>
+    <table width="300" cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td valign="top">200<br>
+          </td>
+          <td valign="top">Duration found<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">403<br>
+          </td>
+          <td valign="top">Azure web app stopped<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">500<br>
+          </td>
+          <td valign="top">Unknown error occurred<br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <h4>Example Request<br>
+    </h4>
+    <pre>GET /api/parse-youtube-url?url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DyrDO1zGqJXg%26start%3D10%26end%3D30%26autoplay%3D1</pre>
+    <h4>Example Response (application/json)<br>
+    </h4>
+    <pre>{"id":"yrDO1zGqJXg","start":10,"end":30,"autoplay":true}</pre>
+    <br>
+  </body>
+</html>
