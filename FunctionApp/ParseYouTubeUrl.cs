@@ -17,11 +17,17 @@ namespace FunctionApp
         [FunctionName("parse-youtube-url")]
         public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)]HttpRequest req, TraceWriter log)
         {
-            if (!Uri.TryCreate(req.Query["url"], UriKind.Absolute, out Uri uri)) {
-                return new BadRequestErrorMessageResult("The url parmeter is required.");
-            }
+            try {
+                if (!Uri.TryCreate(req.Query["url"], UriKind.Absolute, out Uri uri)) {
+                    return new BadRequestErrorMessageResult("The url parmeter is required.");
+                }
 
-            return new OkObjectResult(YouTube.ParseUrl(uri));
+                return new OkObjectResult(YouTube.ParseUrl(uri));
+            } catch (YouTubeURLException ex) {
+                return new BadRequestErrorMessageResult(ex.Message);
+            } catch (Exception) {
+                return new InternalServerErrorResult();
+            }
         }
     }
 }

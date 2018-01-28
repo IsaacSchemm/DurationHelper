@@ -74,7 +74,7 @@ namespace DurationHelper {
                     autoplay = false
                 };
             }
-            throw new YouTubeException("Invalid YouTube URL");
+            throw new YouTubeURLException();
         }
 
         public async Task<TimeSpan> GetDurationAsync(string id) {

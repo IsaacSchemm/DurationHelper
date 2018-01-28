@@ -27,7 +27,7 @@
                       body.innerHTML = "Loading...";
 
                       let resp = await fetch(api_url + "?url=" + encodeURIComponent(url));
-                      statusCode.innerText = resp.status;
+                      statusCode.innerText = resp.status + " " + resp.statusText;
                       contentType.innerText = resp.headers.get("Content-Type");
                       body.innerText = await resp.text();
                   });
@@ -86,9 +86,9 @@ href="https://www.adobe.com/devnet/video/articles/mp4_movie_atom.html#articlecon
           </td>
         </tr>
         <tr>
-          <td valign="top">403<br>
+          <td valign="top">400<br>
           </td>
-          <td valign="top">Azure web app stopped<br>
+          <td valign="top">Missing or invalid URL<br>
           </td>
         </tr>
         <tr>
@@ -101,6 +101,12 @@ href="https://www.adobe.com/devnet/video/articles/mp4_movie_atom.html#articlecon
           <td valign="top">500<br>
           </td>
           <td valign="top">Unknown error occurred<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">502<br>
+          </td>
+          <td valign="top">YouTube API error occurred<br>
           </td>
         </tr>
       </tbody>
@@ -149,9 +155,15 @@ href="https://www.adobe.com/devnet/video/articles/mp4_movie_atom.html#articlecon
           </td>
         </tr>
         <tr>
-          <td valign="top">403<br>
+          <td valign="top">204<br>
           </td>
-          <td valign="top">Azure web app stopped<br>
+          <td valign="top">Duration unknown<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">400<br>
+          </td>
+          <td valign="top">Missing or invalid URL<br>
           </td>
         </tr>
         <tr>

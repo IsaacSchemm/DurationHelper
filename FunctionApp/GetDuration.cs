@@ -17,19 +17,27 @@ namespace FunctionApp
         [FunctionName("get-duration")]
         public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)]HttpRequest req, TraceWriter log)
         {
-            if (!Uri.TryCreate(req.Query["url"], UriKind.Absolute, out Uri uri)) {
-                return new BadRequestErrorMessageResult("The url parmeter is required.");
-            }
-
             try {
-                return new OkObjectResult((await Duration.GetAsync(
-                    uri,
-                    youTubeKey: Environment.GetEnvironmentVariable("YouTubeKey")
-                ))?.TotalSeconds);
-            } catch (YouTubeException ex) {
-                return new StatusCodeResult(ex.Reasons.Contains("quotaExceeded")
-                    ? 429
-                    : 500);
+                if (!Uri.TryCreate(req.Query["url"], UriKind.Absolute, out Uri uri)) {
+                    return new BadRequestErrorMessageResult("The url parmeter is required.");
+                }
+
+                try {
+                    return new OkObjectResult((await Duration.GetAsync(
+                        uri,
+                        youTubeKey: Environment.GetEnvironmentVariable("YouTubeKey")
+                    ))?.TotalSeconds);
+                } catch (YouTubeURLException ex) {
+                    return new BadRequestErrorMessageResult(ex.Message);
+                } catch (YouTubeException ex) {
+                    return new StatusCodeResult(ex.Reasons.Contains("quotaExceeded")
+                        ? 429
+                        : 502);
+                }
+            } catch (WebException ex) when ((ex.Response as HttpWebResponse)?.StatusCode == HttpStatusCode.NotFound) {
+                return new OkObjectResult(null);
+            } catch (Exception) {
+                return new InternalServerErrorResult();
             }
         }
     }
