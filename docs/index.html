@@ -8,7 +8,7 @@
               font-family: Verdana, Geneva, Tahoma, sans-serif;
           }
     </style>
-      <script type="text/javascript">
+    <script type="text/javascript">
           window.addEventListener("load", () => {
               for (let e of document.getElementsByClassName("tryit")) {
                   e.querySelector("input[type=submit]").addEventListener("click", async evt => {
@@ -22,8 +22,8 @@
                       let contentType = e.querySelector(".contentType");
                       let body = e.querySelector(".body");
 
-                      statusCode.innerText = "";
-                      contentType.innerText = "";
+                      statusCode.innerText = "Loading...";
+                      contentType.innerText = "Loading...";
                       body.innerHTML = "Loading...";
 
                       let resp = await fetch(api_url + "?url=" + encodeURIComponent(url));
@@ -122,13 +122,11 @@ href="https://www.adobe.com/devnet/video/articles/mp4_movie_atom.html#articlecon
         </tr>
         <tr>
           <td width="200" valign="top">
-            <p align="center">url <input name="url"><br>
-            </p>
-            <p align="center"><input type="submit"></p>
-          </td>
-          <td valign="top">Status code: <span class="statusCode">&nbsp;</span><br>
+            <p align="center">url <input name="url" style="width:
+                calc(100% - 100px)"><br>
+              <input type="submit"></p>
+            Status code: <span class="statusCode">&nbsp;</span><br>
             Content-Type: <span class="contentType">&nbsp;</span><br>
-            <br>
             Body:<br>
             <pre class="body" style="white-space: pre-wrap;">&nbsp;</pre>
           </td>
@@ -180,13 +178,11 @@ href="https://www.adobe.com/devnet/video/articles/mp4_movie_atom.html#articlecon
         </tr>
         <tr>
           <td width="200" valign="top">
-            <p align="center">url <input name="url"><br>
-            </p>
-            <p align="center"><input type="submit"></p>
-          </td>
-          <td valign="top">Status code: <span class="statusCode">&nbsp;</span><br>
+            <p align="center">url <input name="url" style="width:
+                calc(100% - 100px)"><br>
+              <input type="submit"></p>
+            Status code: <span class="statusCode">&nbsp;</span><br>
             Content-Type: <span class="contentType">&nbsp;</span><br>
-            <br>
             Body:<br>
             <pre class="body" style="white-space: pre-wrap;">&nbsp;</pre>
           </td>
