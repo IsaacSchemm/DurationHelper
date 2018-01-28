@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>DurationHelper</title>
+    <style type="text/css">
+          body {
+              font-family: Verdana, Geneva, Tahoma, sans-serif;
+          }
+    </style>
+    <script type="text/javascript">
+          window.addEventListener("load", () => {
+              for (let e of document.getElementsByClassName("tryit")) {
+                  e.querySelector("input[type=submit]").addEventListener("click", async evt => {
+                      evt.preventDefault();
+
+                      let api_url = e.querySelector(".api-url").innerText;
+                      let url = e.querySelector("input[name=url]").value;
+                      console.log(api_url, url);
+
+                      let statusCode = e.querySelector(".statusCode");
+                      let contentType = e.querySelector(".contentType");
+                      let body = e.querySelector(".body");
+
+                      statusCode.innerText = "Loading...";
+                      contentType.innerText = "Loading...";
+                      body.innerHTML = "Loading...";
+
+                      let resp = await fetch(api_url + "?url=" + encodeURIComponent(url));
+                      statusCode.innerText = resp.status + " " + resp.statusText;
+                      contentType.innerText = resp.headers.get("Content-Type");
+                      body.innerText = await resp.text();
+                  });
+              }
+          });
+      </script>
+  </head>
+  <body>
+    <h3>/api/get-duration?url={url}</h3>
+    <p>Tries to get the duration of a video. Although fractional seconds
+      are sometimes included, some formats are only accurate to the
+      nearest second.<br>
+    </p>
+    <h4>HTTP response codes<br>
+    </h4>
+    <table width="300" cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td valign="top">200<br>
+          </td>
+          <td valign="top">Duration found<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">204<br>
+          </td>
+          <td valign="top">Duration unknown<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">400<br>
+          </td>
+          <td valign="top">Missing or invalid URL<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">429<br>
+          </td>
+          <td valign="top">YouTube API quota exceeded<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">500<br>
+          </td>
+          <td valign="top">Unknown error occurred<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">502<br>
+          </td>
+          <td valign="top">Could not load URL, or YouTube API error
+            occurred<br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <h4>Example Request<br>
+    </h4>
+    <pre>GET /api/get-duration?url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DyrDO1zGqJXg</pre>
+    <h4>Example Response (application/json)<br>
+    </h4>
+    <pre>178.0<br></pre>
+    <h4>Try it</h4>
+    <table class="tryit" width="100%" cellspacing="2" cellpadding="2"
+      border="1">
+      <tbody>
+        <tr>
+          <th rowspan="1" colspan="2" class="api-url" valign="top">
+            https://durationhelper-demo.azurewebsites.net/api/get-duration
+          </th>
+        </tr>
+        <tr>
+          <td width="200" valign="top">
+            <form align="center">url <input name="url" style="width:
+                calc(100% - 100px)"><br>
+              <input type="submit"></form>
+            Status code: <span class="statusCode">&nbsp;</span><br>
+            Content-Type: <span class="contentType">&nbsp;</span><br>
+            Body:<br>
+            <pre class="body" style="white-space: pre-wrap;">&nbsp;</pre>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <hr width="100%" size="2">
+    <h3>/api/parse-youtube-url?url={url}</h3>
+    <p>Extracts the ID and a few parameters from a YouTube URL.<br>
+    </p>
+    <h4>HTTP response codes<br>
+    </h4>
+    <table width="300" cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td valign="top">200<br>
+          </td>
+          <td valign="top">OK<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">400<br>
+          </td>
+          <td valign="top">Missing or invalid URL<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">500<br>
+          </td>
+          <td valign="top">Unknown error occurred<br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <h4>Example Request<br>
+    </h4>
+    <pre>GET /api/parse-youtube-url?url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DyrDO1zGqJXg%26start%3D10%26end%3D30%26autoplay%3D1</pre>
+    <h4>Example Response (application/json)<br>
+    </h4>
+    <pre>{"id":"yrDO1zGqJXg","start":10,"end":30,"autoplay":true}</pre>
+    <table class="tryit" width="100%" cellspacing="2" cellpadding="2"
+      border="1">
+      <tbody>
+        <tr>
+          <th rowspan="1" colspan="2" class="api-url" valign="top">
+            https://durationhelper-demo.azurewebsites.net/api/parse-youtube-url
+          </th>
+        </tr>
+        <tr>
+          <td width="200" valign="top">
+            <form>url <input name="url" style="width: calc(100% -
+                100px)"><br>
+              <input type="submit"></form>
+            Status code: <span class="statusCode">&nbsp;</span><br>
+            Content-Type: <span class="contentType">&nbsp;</span><br>
+            Body:<br>
+            <pre class="body" style="white-space: pre-wrap;">&nbsp;</pre>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
