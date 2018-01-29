@@ -5,6 +5,16 @@ using System.Threading.Tasks;
 
 namespace DurationHelper {
     public static class HLS {
+        /// <summary>
+        /// Find the duration of an HLS playlist (if any.)
+        /// </summary>
+        /// <param name="url">The URL of the playlist file</param>
+        /// <returns>The duration, or null if the file refers to a live stream</returns>
+        /// <exception cref="ArgumentNullException">url is null.</exception>
+        /// <exception cref="WebException">The HTTP request failed or returned a status outside of the 200 range.</exception>
+        /// <exception cref="ProtocolViolationException">The HTTP response did not include a response stream.</exception>
+        /// <exception cref="FormatException">The chunklist contains an invalid chunk length.</exception>
+        /// <exception cref="OverflowException">The chunklist contains a chunk length that is out of range.</exception>
         public static async Task<TimeSpan?> GetPlaylistDurationAsync(Uri url) {
             if (url == null) throw new ArgumentNullException();
 
@@ -25,6 +35,16 @@ namespace DurationHelper {
             return null;
         }
 
+        /// <summary>
+        /// Find the duration of an HLS chunklist (if any.)
+        /// </summary>
+        /// <param name="url">The URL of the chunklist file</param>
+        /// <returns>The duration, or null if the file refers to a live stream</returns>
+        /// <exception cref="ArgumentNullException">url is null.</exception>
+        /// <exception cref="WebException">The HTTP request failed or returned a status outside of the 200 range.</exception>
+        /// <exception cref="ProtocolViolationException">The HTTP response did not include a response stream.</exception>
+        /// <exception cref="FormatException">The chunklist contains an invalid chunk length.</exception>
+        /// <exception cref="OverflowException">The chunklist contains a chunk length that is out of range.</exception>
         public static async Task<TimeSpan?> GetChunklistDurationAsync(Uri url) {
             if (url == null) throw new ArgumentNullException();
 
@@ -39,6 +59,14 @@ namespace DurationHelper {
             }
         }
 
+        /// <summary>
+        /// Find the duration of an HLS chunklist (if any.)
+        /// </summary>
+        /// <param name="reader">A TextReader containing the contents of the chunklist file</param>
+        /// <returns>The duration, or null if the file refers to a live stream</returns>
+        /// <exception cref="ArgumentNullException">reader is null.</exception>
+        /// <exception cref="FormatException">The chunklist contains an invalid chunk length.</exception>
+        /// <exception cref="OverflowException">The chunklist contains a chunk length that is out of range.</exception>
         public static async Task<TimeSpan?> GetChunklistDurationAsync(TextReader reader) {
             if (reader == null) throw new ArgumentNullException();
 

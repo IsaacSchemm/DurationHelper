@@ -7,6 +7,15 @@ using System.Threading.Tasks;
 
 namespace DurationHelper {
     public static class MP4 {
+        /// <summary>
+        /// Find the duration of an MP4 file from a Stream.
+        /// </summary>
+        /// <param name="stream">A readable Stream containing an MP4 file</param>
+        /// <returns>The duration, or null if no duration info was found</returns>
+        /// <exception cref="ArgumentNullException">stream is null.</exception>
+        /// <exception cref="NotSupportedException">The stream does not support reading.</exception>
+        /// <exception cref="ObjectDisposedException">The stream has been disposed.</exception>
+        /// <exception cref="InvalidOperationException">The stream is currently in use by a previous read operation.</exception>
         public static async Task<TimeSpan?> GetDurationAsync(Stream stream) {
             if (stream == null) throw new ArgumentNullException();
             byte[] searchFor = Encoding.UTF8.GetBytes("mvhd");
@@ -40,7 +49,13 @@ namespace DurationHelper {
             }
             return null;
         }
-        
+
+        /// <summary>
+        /// Find the duration of an MP4 file from a byte array.
+        /// </summary>
+        /// <param name="data">A byte array containing an MP4 file</param>
+        /// <returns>The duration, or null if no duration info was found</returns>
+        /// <exception cref="ArgumentNullException">data is null.</exception>
         public static async Task<TimeSpan?> GetDurationAsync(byte[] data) {
             if (data == null) throw new ArgumentNullException();
             using (MemoryStream ms = new MemoryStream(data, false)) {
@@ -48,6 +63,16 @@ namespace DurationHelper {
             }
         }
 
+        /// <summary>
+        /// Find the duration of an MP4 file from a URL.
+        /// </summary>
+        /// <param name="url">A public URL pointing to an MP4 file</param>
+        /// <param name="range">The maximum number of bytes to download, starting from the beginning of the file</param>
+        /// <returns>The duration, or null if no duration info was found</returns>
+        /// <exception cref="ArgumentNullException">url is null.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">range is less than 0.</exception>
+        /// <exception cref="WebException">The HTTP request failed or returned a status outside of the 200 range.</exception>
+        /// <exception cref="ProtocolViolationException">The HTTP response did not include a response stream.</exception>
         public static async Task<TimeSpan?> GetDurationAsync(Uri url, int range = 256) {
             if (url == null) throw new ArgumentNullException();
 

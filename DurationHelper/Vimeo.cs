@@ -6,6 +6,14 @@ using System.Threading.Tasks;
 
 namespace DurationHelper {
     public static class Vimeo {
+        /// <summary>
+        /// Find the duration of a Vimeo video by its URL.
+        /// </summary>
+        /// <param name="url">The URL of the video</param>
+        /// <returns>The video duration</returns>
+        /// <exception cref="ArgumentNullException">url is null.</exception>
+        /// <exception cref="WebException">The Vimeo oEmbed request failed or returned a status outside of the 200 range.</exception>
+        /// <exception cref="JsonReaderException">The Vimeo oEmbed response could not be deserialized.</exception>
         public static async Task<TimeSpan> GetDurationAsync(Uri url) {
             if (url == null) throw new ArgumentNullException();
 
