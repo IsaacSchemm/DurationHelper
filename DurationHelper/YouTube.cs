@@ -23,7 +23,7 @@ namespace DurationHelper {
         /// <summary>
         /// Extract a YouTube ID and a few parameters from a YouTube URL.
         /// </summary>
-        /// <param name="url">The YouTube URL</param>
+        /// <param name="url">The YouTube URL (youtube.com or youtu.be)</param>
         /// <returns>Information extracted from the URL</returns>
         /// <exception cref="YouTubeURLException">The URL format was not recognized as a YouTube URL.</exception>
         public static YouTubeUrlInfo ParseUrl(Uri url) {

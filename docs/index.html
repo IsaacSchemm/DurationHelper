@@ -33,6 +33,46 @@
       and short (<tt>youtu.be</tt>) URLs are supported.<br>
     </p>
     <hr width="100%" size="2">
+    <h2>Usage</h2>
+    <h3>Duration.GetAsync<br>
+    </h3>
+    <p><tt>async Task&lt;TimeSpan?&gt; Duration.GetAsync(Uri uri, string
+        youTubeKey = null)</tt><br>
+    </p>
+    <p>Find the duration of a video from its URL. This function can
+      throw several exceptions if the process fails, but it can also
+      return null if the process succeeds and the duration simply can't
+      be determined.<br>
+    </p>
+    <p>Parameters:<br>
+    </p>
+    <ul>
+      <li><b>url</b>: A public URL pointing to an MP4, HLS, YouTube, or
+        Vimeo video</li>
+      <li><b>youTubeKey</b>: A YouTube Data API v3 key. If not provided,
+        all YouTube URLs will return a duration of null, as if they were
+        not recognized.</li>
+    </ul>
+    <p>Returns the duration, or null if the duration could not be
+      determined.<br>
+    </p>
+    <h3>YouTube.ParseUrl</h3>
+    <p><tt>YouTubeUrlInfo ParseUrl(Uri url)</tt><br>
+    </p>
+    <p>Extract a YouTube ID and a few parameters from a YouTube URL.<br>
+    </p>
+    <p>Parameters:<br>
+    </p>
+    <ul>
+      <li>url: The YouTube URL (youtube.com or youtu.be)</li>
+    </ul>
+    <p>Returns information extracted from the URL:<br>
+    </p>
+    <pre>struct YouTubeUrlInfo {<br>&nbsp;&nbsp;&nbsp; public string id;<br>&nbsp;&nbsp;&nbsp; public int? start;<br>    public int? end;<br>&nbsp;&nbsp;&nbsp; public bool autoplay;<br>}<br></pre>
+    <p>Other functions are available - see the source code for more
+      details.<br>
+    </p>
+    <hr width="100%" size="2">
     <h2><a href="api.html">Azure Functions API</a></h2>
     <p>The source code to DurationHelper includes an Azure Functions
       project. If the application you're working on doesn't use .NET,

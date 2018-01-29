@@ -13,6 +13,7 @@ namespace DurationHelper {
         /// determined.
         /// </summary>
         /// <param name="url">A public URL pointing to an MP4, HLS, youTube, or Vimeo video</param>
+        /// <param name="youTubeKey">A YouTube Data API v3 key. If not provided, all YouTube URLs will return a duration of null, as if they were not recognized.</param>
         /// <returns>The duration, or null if the duration could not be determined.</returns>
         /// <exception cref="ArgumentNullException">url is null.</exception>
         /// <exception cref="WebException">An HTTP request failed or returned a status outside of the 200 range.</exception>
