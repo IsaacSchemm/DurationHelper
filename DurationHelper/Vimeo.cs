@@ -22,7 +22,7 @@ namespace DurationHelper {
             using (var resp = await req.GetResponseAsync()) {
                 using (var sr = new StreamReader(resp.GetResponseStream())) {
                     var obj = JsonConvert.DeserializeAnonymousType(await sr.ReadToEndAsync(), new {
-                        duration = 0
+                        duration = 0.0
                     });
                     return TimeSpan.FromSeconds(obj.duration);
                 }

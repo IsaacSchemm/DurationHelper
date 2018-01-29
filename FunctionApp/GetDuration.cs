@@ -21,19 +21,17 @@ namespace FunctionApp
                 if (!Uri.TryCreate(req.Query["url"], UriKind.Absolute, out Uri uri)) {
                     return new BadRequestErrorMessageResult("The url parmeter is required.");
                 }
-
-                try {
-                    return new OkObjectResult((await Duration.GetAsync(
-                        uri,
-                        youTubeKey: Environment.GetEnvironmentVariable("YouTubeKey")
-                    ))?.TotalSeconds);
-                } catch (YouTubeURLException ex) {
-                    return new BadRequestErrorMessageResult(ex.Message);
-                } catch (YouTubeException ex) {
-                    return new StatusCodeResult(ex.Reasons.Contains("quotaExceeded")
-                        ? 429
-                        : 502);
-                }
+                
+                return new OkObjectResult((await Duration.GetAsync(
+                    uri,
+                    youTubeKey: Environment.GetEnvironmentVariable("YouTubeKey")
+                ))?.TotalSeconds);
+            } catch (YouTubeURLException ex) {
+                return new BadRequestErrorMessageResult(ex.Message);
+            } catch (YouTubeException ex) {
+                return new StatusCodeResult(ex.Reasons.Contains("quotaExceeded")
+                    ? 429
+                    : 502);
             } catch (WebException) {
                 return new StatusCodeResult(502);
             } catch (Exception) {
