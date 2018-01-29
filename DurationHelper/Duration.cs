@@ -6,6 +6,21 @@ using System.Threading.Tasks;
 
 namespace DurationHelper {
     public static class Duration {
+        /// <summary>
+        /// Find the duration of a video from its URL. This function can throw
+        /// several exceptions if the process fails, but it can also return
+        /// null if the process succeeds and the duration simply can't be
+        /// determined.
+        /// </summary>
+        /// <param name="url">A public URL pointing to an MP4, HLS, youTube, or Vimeo video</param>
+        /// <returns>The duration, or null if the duration could not be determined.</returns>
+        /// <exception cref="ArgumentNullException">url is null.</exception>
+        /// <exception cref="WebException">An HTTP request failed or returned a status outside of the 200 range.</exception>
+        /// <exception cref="ProtocolViolationException">An HTTP response did not include a response stream.</exception>
+        /// <exception cref="FormatException">The duration could not be parsed.</exception>
+        /// <exception cref="OverflowException">An HLS chunklist contains a chunk length that is out of range.</exception>
+        /// <exception cref="JsonReaderException">A JSON response could not be deserialized.</exception>
+        /// <exception cref="YouTubeException">A YouTube API error occurred.</exception>
         public static async Task<TimeSpan?> GetAsync(Uri url, string youTubeKey = null) {
             if (url == null) throw new ArgumentNullException();
 

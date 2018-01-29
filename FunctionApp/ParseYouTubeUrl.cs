@@ -15,7 +15,7 @@ namespace FunctionApp
     public static class ParseYouTubeUrl
     {
         [FunctionName("parse-youtube-url")]
-        public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)]HttpRequest req, TraceWriter log)
+        public static IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)]HttpRequest req, TraceWriter log)
         {
             try {
                 if (!Uri.TryCreate(req.Query["url"], UriKind.Absolute, out Uri uri)) {
