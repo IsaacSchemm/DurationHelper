@@ -41,56 +41,6 @@
       are sometimes included, some formats are only accurate to the
       nearest second.<br>
     </p>
-    <h4>HTTP response codes<br>
-    </h4>
-    <table width="300" cellspacing="2" cellpadding="2" border="1">
-      <tbody>
-        <tr>
-          <td valign="top">200<br>
-          </td>
-          <td valign="top">Duration found<br>
-          </td>
-        </tr>
-        <tr>
-          <td valign="top">204<br>
-          </td>
-          <td valign="top">Duration unknown<br>
-          </td>
-        </tr>
-        <tr>
-          <td valign="top">400<br>
-          </td>
-          <td valign="top">Missing or invalid URL<br>
-          </td>
-        </tr>
-        <tr>
-          <td valign="top">429<br>
-          </td>
-          <td valign="top">YouTube API quota exceeded<br>
-          </td>
-        </tr>
-        <tr>
-          <td valign="top">500<br>
-          </td>
-          <td valign="top">Unknown error occurred<br>
-          </td>
-        </tr>
-        <tr>
-          <td valign="top">502<br>
-          </td>
-          <td valign="top">Could not load URL, or YouTube API error
-            occurred<br>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <h4>Example Request<br>
-    </h4>
-    <pre>GET /api/get-duration?url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DyrDO1zGqJXg</pre>
-    <h4>Example Response (application/json)<br>
-    </h4>
-    <pre>178.0<br></pre>
-    <h4>Try it</h4>
     <table class="tryit" width="100%" cellspacing="2" cellpadding="2"
       border="1">
       <tbody>
@@ -102,7 +52,7 @@
         <tr>
           <td width="200" valign="top">
             <form align="center">url <input name="url" style="width:
-                calc(100% - 100px)"><br>
+                calc(100% - 100px)" value="https://www.youtu.be/BB6SCHiTSzw"><br>
               <input type="submit"></form>
             Status code: <span class="statusCode">&nbsp;</span><br>
             Content-Type: <span class="contentType">&nbsp;</span><br>
@@ -117,36 +67,6 @@
     <h3>/api/parse-youtube-url?url={url}</h3>
     <p>Extracts the ID and a few parameters from a YouTube URL.<br>
     </p>
-    <h4>HTTP response codes<br>
-    </h4>
-    <table width="300" cellspacing="2" cellpadding="2" border="1">
-      <tbody>
-        <tr>
-          <td valign="top">200<br>
-          </td>
-          <td valign="top">OK<br>
-          </td>
-        </tr>
-        <tr>
-          <td valign="top">400<br>
-          </td>
-          <td valign="top">Missing or invalid URL<br>
-          </td>
-        </tr>
-        <tr>
-          <td valign="top">500<br>
-          </td>
-          <td valign="top">Unknown error occurred<br>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <h4>Example Request<br>
-    </h4>
-    <pre>GET /api/parse-youtube-url?url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DyrDO1zGqJXg%26start%3D10%26end%3D30%26autoplay%3D1</pre>
-    <h4>Example Response (application/json)<br>
-    </h4>
-    <pre>{"id":"yrDO1zGqJXg","start":10,"end":30,"autoplay":true}</pre>
     <table class="tryit" width="100%" cellspacing="2" cellpadding="2"
       border="1">
       <tbody>
@@ -158,7 +78,7 @@
         <tr>
           <td width="200" valign="top">
             <form>url <input name="url" style="width: calc(100% -
-                100px)"><br>
+                100px)" value="https://www.youtu.be/BB6SCHiTSzw"><br>
               <input type="submit"></form>
             Status code: <span class="statusCode">&nbsp;</span><br>
             Content-Type: <span class="contentType">&nbsp;</span><br>
