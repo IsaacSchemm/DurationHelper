@@ -1,5 +1,7 @@
 # DurationHelper
 
+https://www.nuget.org/packages/DurationHelper
+
 DurationHelper is a .NET Standard library that does its best to determine the duration of a video when given its URL.
 
 Supported formats:
@@ -49,7 +51,7 @@ Other functions are available - see the source code for more details.
 
 The source code to DurationHelper includes an Azure Functions project. If the application you're working on doesn't use .NET, you could deploy this project to your Azure account (using a Consumption plan) and access it over HTTP.
 
-[Try it](https://isaacschemm.github.io/DurationHelper/api.html)
+[Try it](https://www.lakora.us/DurationHelper/api.html)
 
 ### get-duration
 

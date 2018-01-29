@@ -2,6 +2,17 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Isaac Schemm</Authors>
+    <Company></Company>
+    <Product>DurationHelper</Product>
+    <Copyright>Copyright © 2018 Isaac Schemm</Copyright>
+    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/IsaacSchemm/DurationHelper</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/IsaacSchemm/DurationHelper</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageReleaseNotes></PackageReleaseNotes>
+    <Description>A .NET library to get duration of a video from its URL. Supports MP4, HLS (VOD), YouTube (if you provide an API key), and Vimeo.</Description>
   </PropertyGroup>
 
   <ItemGroup>
