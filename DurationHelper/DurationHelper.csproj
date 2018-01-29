@@ -13,6 +13,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageReleaseNotes></PackageReleaseNotes>
     <Description>A .NET library to get duration of a video from its URL. Supports MP4, HLS (VOD), YouTube (if you provide an API key), and Vimeo.</Description>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>

@@ -107,7 +107,7 @@ namespace DurationHelper {
             try {
                 using (var resp = await req.GetResponseAsync()) {
                     using (var sr = new StreamReader(resp.GetResponseStream())) {
-                        var obj = JsonConvert.DeserializeAnonymousType("{}", new {
+                        var obj = JsonConvert.DeserializeAnonymousType(await sr.ReadToEndAsync(), new {
                             items = new[] {
                                 new {
                                     id = "",
@@ -117,7 +117,7 @@ namespace DurationHelper {
                                 }
                             }
                         });
-                        return XmlConvert.ToTimeSpan(obj.items.Select(i => i.contentDetails.duration).FirstOrDefault());
+                        return XmlConvert.ToTimeSpan(obj?.items?.Select(i => i.contentDetails.duration).FirstOrDefault());
                     }
                 }
             } catch (WebException ex) when (ex.Response is HttpWebResponse r) {
