@@ -28,7 +28,9 @@ namespace FunctionApp
                 return new OkObjectResult((await Duration.GetAsync(
                     req.Query["provider"],
                     req.Query["id"],
-                    youTubeKey: Environment.GetEnvironmentVariable("YouTubeKey")
+                    youTubeKey: Environment.GetEnvironmentVariable("YouTubeKey"),
+                    twitchClientId: Environment.GetEnvironmentVariable("TwitchClientId"),
+                    twitchSecret: Environment.GetEnvironmentVariable("TwitchSecret")
                 ))?.TotalSeconds);
             } catch (YouTubeException ex) {
                 return new StatusCodeResult(ex.Reasons.Contains("quotaExceeded")

@@ -24,7 +24,9 @@ namespace FunctionApp
                 
                 return new OkObjectResult((await Duration.GetAsync(
                     uri,
-                    youTubeKey: Environment.GetEnvironmentVariable("YouTubeKey")
+                    youTubeKey: Environment.GetEnvironmentVariable("YouTubeKey"),
+                    twitchClientId: Environment.GetEnvironmentVariable("TwitchClientId"),
+                    twitchSecret: Environment.GetEnvironmentVariable("TwitchClientSecret")
                 ))?.TotalSeconds);
             } catch (YouTubeURLException ex) {
                 return new BadRequestErrorMessageResult(ex.Message);
