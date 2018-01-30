@@ -12,7 +12,6 @@ namespace DurationHelper {
         /// <returns>The duration, or null if the file refers to a live stream</returns>
         /// <exception cref="ArgumentNullException">url is null.</exception>
         /// <exception cref="WebException">The HTTP request failed or returned a status outside of the 200 range.</exception>
-        /// <exception cref="ProtocolViolationException">The HTTP response did not include a response stream.</exception>
         /// <exception cref="FormatException">The chunklist contains an invalid chunk length.</exception>
         /// <exception cref="OverflowException">The chunklist contains a chunk length that is out of range.</exception>
         public static async Task<TimeSpan?> GetPlaylistDurationAsync(Uri url) {
@@ -42,7 +41,6 @@ namespace DurationHelper {
         /// <returns>The duration, or null if the file refers to a live stream</returns>
         /// <exception cref="ArgumentNullException">url is null.</exception>
         /// <exception cref="WebException">The HTTP request failed or returned a status outside of the 200 range.</exception>
-        /// <exception cref="ProtocolViolationException">The HTTP response did not include a response stream.</exception>
         /// <exception cref="FormatException">The chunklist contains an invalid chunk length.</exception>
         /// <exception cref="OverflowException">The chunklist contains a chunk length that is out of range.</exception>
         public static async Task<TimeSpan?> GetChunklistDurationAsync(Uri url) {

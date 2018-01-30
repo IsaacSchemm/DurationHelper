@@ -10,6 +10,10 @@ If the application you're working on doesn't use .NET, you could deploy this pro
 
 Tries to get the duration of a video. Although fractional seconds are sometimes included, some formats are only accurate to the nearest second.
 
+Parameters:
+
+* **url**: A public URL pointing to an MP4, HLS, YouTube, or Vimeo video.
+
 **HTTP response codes**
 
 * **200**: Duration found
@@ -26,22 +30,29 @@ Tries to get the duration of a video. Although fractional seconds are sometimes 
 
     178.0
 
-### parse-youtube-url
+### get-duration-by-id
 
-    /api/parse-youtube-url?url={url}
+    /api/get-duration-by-id?provider={provider}&id={id}
 
-Extracts the ID and a few parameters from a YouTube URL.
+Tries to get the duration of a video hosted on a given provider.
+
+Parameters:
+
+* **provider**: The provider as given by [jsVideoUrlParser](https://github.com/Zod-/jsVideoUrlParser). Currently supported providers are "youtube" and "vimeo".
+* **id**: The ID of the video.
 
 **HTTP response codes**
 
 * **200**: Duration found
-* **400**: Missing or invalid URL
+* **204**: Duration unknown
+* **400**: Missing or invalid parameters
 * **500**: An unknown error occurred
+* **502**: A URL could not be loaded, or a YouTube API error occurred
 
 **Example request**
 
-    GET /api/parse-youtube-url?url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DyrDO1zGqJXg%26start%3D10%26end%3D30%26autoplay%3D1
+    GET /api/get-duration-by-id?id=237205665&provider=vimeo
 
 **Example response**
 
-    {"id":"yrDO1zGqJXg","start":10,"end":30,"autoplay":true}
+    114.0

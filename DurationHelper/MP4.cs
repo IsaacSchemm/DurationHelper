@@ -72,7 +72,6 @@ namespace DurationHelper {
         /// <exception cref="ArgumentNullException">url is null.</exception>
         /// <exception cref="ArgumentOutOfRangeException">range is less than 0.</exception>
         /// <exception cref="WebException">The HTTP request failed or returned a status outside of the 200 range.</exception>
-        /// <exception cref="ProtocolViolationException">The HTTP response did not include a response stream.</exception>
         public static async Task<TimeSpan?> GetDurationAsync(Uri url, int range = 256) {
             if (url == null) throw new ArgumentNullException();
 

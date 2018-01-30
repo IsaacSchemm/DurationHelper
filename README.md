@@ -19,7 +19,9 @@ DurationHelper can also extract the ID and start, end, and autoplay parameters f
 
     async Task<TimeSpan?> Duration.GetAsync(Uri uri, string youTubeKey = null)
 
-Find the duration of a video from its URL. This function can throw several exceptions if the process fails, but it can also return null if the process succeeds and the duration simply can't be determined.
+Find the duration of a video from its URL. This function can throw several
+exceptions if the process fails, but it can also return null if the process
+succeeds and the duration simply can't be determined.
 
 Although fractional seconds are sometimes included, some formats are only accurate to the nearest second.
 
@@ -30,20 +32,19 @@ Parameters:
 
 Returns the duration, or null if the duration could not be determined.
 
-    YouTubeUrlInfo ParseUrl(Uri url)
+    async Task<TimeSpan?> Duration.GetAsync(string provider, string id, string youTubeKey = null)
 
-Extract a YouTube ID and a few parameters from a YouTube URL.
+Find the duration of a video from its provider and ID. This function can throw
+several exceptions if the process fails, but it can also return null if the
+duration can't be determined or if the provider is unrecognized.
 
 Parameters:
 
-* **url**: The YouTube URL (youtube.com or youtu.be)
+* **provider**: The provider as given by [jsVideoUrlParser](https://github.com/Zod-/jsVideoUrlParser). Currently supported providers are "youtube" and "vimeo".
+* **id**: The ID of the video.
+* **youTubeKey**: A YouTube Data API v3 key. If not provided, all YouTube URLs will return a duration of null, as if they were not recognized.
 
-Returns information extracted from the URL:
-
-* **id**: The extracted YouTube ID.
-* **start**: The start time, in seconds, specified in the URL (if any.)
-* **end**: The end time, in seconds, specified in the URL (if any.)
-* **autoplay**: Whether the autoplay=1 parameter is present in the URL.
+Returns the duration, or null if the duration could not be determined.
 
 Other functions are available - see the source code for more details.
 

@@ -11,6 +11,8 @@ namespace DurationHelper {
     public class YouTube {
         private string _key;
 
+        private readonly static Regex REGEX_ID = new Regex(@"(?:(?:v|vi|be|videos|embed)/(?!videoseries)|(?:v|ci)=)([\w-]{11})");
+
         /// <summary>
         /// Create a new DurationHelper.YouTube object with a YouTube Data API v3 key.
         /// </summary>
@@ -21,72 +23,14 @@ namespace DurationHelper {
         }
 
         /// <summary>
-        /// Extract a YouTube ID and a few parameters from a YouTube URL.
+        /// Extract a YouTube ID from a YouTube URL.
         /// </summary>
         /// <param name="url">The YouTube URL (youtube.com or youtu.be)</param>
-        /// <returns>Information extracted from the URL</returns>
+        /// <returns>The YouTube ID</returns>
         /// <exception cref="YouTubeURLException">The URL format was not recognized as a YouTube URL.</exception>
-        public static YouTubeUrlInfo ParseUrl(Uri url) {
-            string getQueryVariable(Uri u, string variable) {
-                var query = u.Query;
-                if (query.StartsWith("?")) query = query.Substring(1);
-                var vars = query.Split('&');
-                for (var i = 0; i < vars.Length; i++) {
-                    var pair = vars[i].Split('=');
-                    if (WebUtility.UrlDecode(pair[0]) == variable) {
-                        return WebUtility.UrlDecode(pair[1]);
-                    }
-                }
-                return null;
-            }
-
-            int? asNumber(string s) =>
-                s != null && int.TryParse(s, out int i)
-                    ? i
-                    : (int?)null;
-
-            if (url.Authority.EndsWith("youtube.com")) {
-                var v = getQueryVariable(url, "v");
-                if (v != null) {
-                    return new YouTubeUrlInfo {
-                        id = v,
-                        start = asNumber(getQueryVariable(url, "start")),
-                        end = asNumber(getQueryVariable(url, "end")),
-                        autoplay = getQueryVariable(url, "autoplay") == "1",
-                    };
-                } else if (url.AbsolutePath.StartsWith("/embed/")) {
-                    return new YouTubeUrlInfo {
-                        id = url.AbsolutePath.Substring("/embed/".Length),
-                        start = asNumber(getQueryVariable(url, "start")),
-                        end = asNumber(getQueryVariable(url, "end")),
-                        autoplay = getQueryVariable(url, "autoplay") == "1",
-                    };
-                }
-            } else if (url.Authority.EndsWith("youtu.be")) {
-                var t = getQueryVariable(url, "t");
-                int sec = 0;
-                if (t != null) {
-                    var h = Regex.Match(url.Query, "([0-9]+)h");
-                    if (h.Success) {
-                        sec += int.Parse(h.Groups[1].Value) * 3600;
-                    }
-                    var m = Regex.Match(url.Query, "([0-9]+)m");
-                    if (m != null) {
-                        sec += int.Parse(m.Groups[1].Value) * 60;
-                    }
-                    var s = Regex.Match(url.Query, "([0-9]+)s");
-                    if (s != null) {
-                        sec += int.Parse(m.Groups[1].Value);
-                    }
-                }
-                return new YouTubeUrlInfo {
-                    id = url.AbsolutePath.Substring(1),
-                    start = sec,
-                    end = null,
-                    autoplay = false
-                };
-            }
-            throw new YouTubeURLException();
+        public static string GetIdFromUrl(Uri url) {
+            var match = REGEX_ID.Match(url.AbsoluteUri);
+            return match.Success ? match.Groups[1].Value : throw new YouTubeURLException();
         }
 
         /// <summary>
@@ -126,9 +70,9 @@ namespace DurationHelper {
         }
 
         /// <summary>
-        /// Get the duration of a YouTube video by its ID.
+        /// Get the duration of a YouTube video by its URL.
         /// </summary>
-        /// <param name="id">The video's YouTube ID</param>
+        /// <param name="url">The video's YouTube URL</param>
         /// <returns>The duration of the video</returns>
         /// <exception cref="ArgumentNullException">url is null.</exception>
         /// <exception cref="YouTubeURLException">The URL format was not recognized as a YouTube URL.</exception>
@@ -136,10 +80,11 @@ namespace DurationHelper {
         /// <exception cref="JsonReaderException">The YouTube API response could not be deserialized.</exception>
         /// <exception cref="FormatException">The duration could not be parsed from the YouTube API response.</exception>
         /// <exception cref="YouTubeException">A YouTube API error occurred.</exception>
+        /// <exception cref="YouTubeURLException">The URL format was not recognized as a YouTube URL.</exception>
         public async Task<TimeSpan?> GetDurationAsync(Uri url) {
             if (url == null) throw new ArgumentNullException();
             
-            return await GetDurationAsync(ParseUrl(url).id);
+            return await GetDurationAsync(GetIdFromUrl(url));
         }
     }
 }
