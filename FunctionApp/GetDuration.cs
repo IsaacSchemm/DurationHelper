@@ -28,7 +28,7 @@ namespace FunctionApp
                     twitchClientId: Environment.GetEnvironmentVariable("TwitchClientId"),
                     twitchSecret: Environment.GetEnvironmentVariable("TwitchClientSecret")
                 ))?.TotalSeconds);
-            } catch (YouTubeURLException ex) {
+            } catch (VideoURLParseException ex) {
                 return new BadRequestErrorMessageResult(ex.Message);
             } catch (YouTubeException ex) {
                 return new StatusCodeResult(ex.Reasons.Contains("quotaExceeded")

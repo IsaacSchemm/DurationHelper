@@ -27,10 +27,10 @@ namespace DurationHelper {
         /// </summary>
         /// <param name="url">The YouTube URL (youtube.com or youtu.be)</param>
         /// <returns>The YouTube ID</returns>
-        /// <exception cref="YouTubeURLException">The URL format was not recognized as a YouTube URL.</exception>
+        /// <exception cref="VideoURLParseException">The URL format was not recognized as a YouTube URL.</exception>
         public static string GetIdFromUrl(Uri url) {
             var match = REGEX_ID.Match(url.AbsoluteUri);
-            return match.Success ? match.Groups[1].Value : throw new YouTubeURLException();
+            return match.Success ? match.Groups[1].Value : throw new VideoURLParseException();
         }
 
         /// <summary>
@@ -75,12 +75,12 @@ namespace DurationHelper {
         /// <param name="url">The video's YouTube URL</param>
         /// <returns>The duration of the video</returns>
         /// <exception cref="ArgumentNullException">url is null.</exception>
-        /// <exception cref="YouTubeURLException">The URL format was not recognized as a YouTube URL.</exception>
+        /// <exception cref="VideoURLParseException">The URL format was not recognized as a YouTube URL.</exception>
         /// <exception cref="WebException">The YouTube API request failed.</exception>
         /// <exception cref="JsonReaderException">The YouTube API response could not be deserialized.</exception>
         /// <exception cref="FormatException">The duration could not be parsed from the YouTube API response.</exception>
         /// <exception cref="YouTubeException">A YouTube API error occurred.</exception>
-        /// <exception cref="YouTubeURLException">The URL format was not recognized as a YouTube URL.</exception>
+        /// <exception cref="VideoURLParseException">The URL format was not recognized as a YouTube URL.</exception>
         public async Task<TimeSpan?> GetDurationAsync(Uri url) {
             if (url == null) throw new ArgumentNullException();
             

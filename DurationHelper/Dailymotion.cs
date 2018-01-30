@@ -16,10 +16,10 @@ namespace DurationHelper {
         /// </summary>
         /// <param name="url">The Dailymotion URL</param>
         /// <returns>The video ID</returns>
-        /// <exception cref="YouTubeURLException">The URL format was not recognized as a Dailymotion URL.</exception>
+        /// <exception cref="VideoURLParseException">The URL format was not recognized as a Dailymotion URL.</exception>
         public static string GetIdFromUrl(Uri url) {
             var match = REGEX_ID.Match(url.AbsoluteUri);
-            return match.Success ? match.Groups[1].Value : throw new YouTubeURLException();
+            return match.Success ? match.Groups[1].Value : throw new VideoURLParseException();
         }
 
         /// <summary>

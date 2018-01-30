@@ -23,7 +23,7 @@ namespace DurationHelper {
         /// <exception cref="OverflowException">An HLS chunklist contains a chunk length that is out of range.</exception>
         /// <exception cref="JsonReaderException">A JSON response could not be deserialized.</exception>
         /// <exception cref="YouTubeException">A YouTube API error occurred.</exception>
-        /// <exception cref="YouTubeURLException">The URL was treated as YouTube but did not match a known YouTube URL format.</exception>
+        /// <exception cref="VideoURLParseException">The URL was treated as YouTube but did not match a known YouTube URL format.</exception>
         public static async Task<TimeSpan?> GetAsync(Uri url, string youTubeKey = null, string twitchClientId = null, string twitchSecret = null) {
             if (url == null) throw new ArgumentNullException();
 

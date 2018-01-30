@@ -7,6 +7,7 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace DurationHelper {
     public class Twitch {
@@ -16,14 +17,14 @@ namespace DurationHelper {
         private readonly static Regex REGEX_ID = new Regex(@"(clips\.)?twitch\.tv/(?:(?:videos/(\d+))|(\w+))?", RegexOptions.IgnoreCase);
 
         /// <summary>
-        /// Extract an ID from a Twitch URL.
+        /// Extract a video ID from a Twitch URL.
         /// </summary>
         /// <param name="url">The Twitch URL<param>
-        /// <returns>The YouTube ID</returns>
-        /// <exception cref="YouTubeURLException">The URL format was not recognized as a Twitch URL.</exception>
-        public static string GetIdFromUrl(Uri url) {
+        /// <returns>The video ID</returns>
+        /// <exception cref="VideoURLParseException">The URL format was not recognized as a Twitch URL.</exception>
+        public static string GetVideoIdFromUrl(Uri url) {
             var match = REGEX_ID.Match(url.AbsoluteUri);
-            return match.Success ? match.Groups[1].Value : throw new YouTubeURLException();
+            return match.Success ? match.Groups[2].Value : throw new VideoURLParseException();
         }
 
         private Twitch(string accessToken, double expirationSec) {
@@ -32,7 +33,7 @@ namespace DurationHelper {
         }
 
         public static async Task<Twitch> CreateAsync(string clientId, string clientSecret) {
-            var req = WebRequest.CreateHttp($"https://api.twitch.tv/kraken/oauth2/token?clientId={WebUtility.UrlEncode(clientId)}&clientSecret={WebUtility.UrlEncode(clientSecret)}&grant_type=client_credentials");
+            var req = WebRequest.CreateHttp($"https://api.twitch.tv/kraken/oauth2/token?client_id={WebUtility.UrlEncode(clientId)}&client_secret={WebUtility.UrlEncode(clientSecret)}&grant_type=client_credentials");
             req.Method = "POST";
             using (var resp = await req.GetResponseAsync()) {
                 using (var sr = new StreamReader(resp.GetResponseStream())) {
@@ -60,7 +61,7 @@ namespace DurationHelper {
                             }
                         }
                     });
-                    throw new Exception(obj.data?.Select(x => x.duration)?.FirstOrDefault());
+                    return XmlConvert.ToTimeSpan("PT" + obj.data?.Select(x => x.duration.ToUpperInvariant())?.FirstOrDefault());
                 }
             }
         }
@@ -68,7 +69,7 @@ namespace DurationHelper {
         public async Task<TimeSpan?> GetDurationAsync(Uri url) {
             if (url == null) throw new ArgumentNullException();
 
-            return await GetDurationAsync(GetIdFromUrl(url));
+            return await GetDurationAsync(GetVideoIdFromUrl(url));
         }
     }
 }
