@@ -12,7 +12,7 @@ Tries to get the duration of a video. Although fractional seconds are sometimes 
 
 Parameters:
 
-* **url**: A public URL pointing to an MP4, HLS, YouTube, or Vimeo video.
+* **url**: A public URL pointing to an MP4, HLS, YouTube, Dailymotion, or Vimeo video.
 
 **HTTP response codes**
 
@@ -38,7 +38,7 @@ Tries to get the duration of a video hosted on a given provider.
 
 Parameters:
 
-* **provider**: The provider as given by [jsVideoUrlParser](https://github.com/Zod-/jsVideoUrlParser). Currently supported providers are "youtube" and "vimeo".
+* **provider**: The provider as given by [jsVideoUrlParser](https://github.com/Zod-/jsVideoUrlParser). Currently supported providers are "youtube", "dailymotion", and "vimeo".
 * **id**: The ID of the video.
 
 **HTTP response codes**

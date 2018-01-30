@@ -11,7 +11,7 @@ namespace DurationHelper {
     public class YouTube {
         private string _key;
 
-        private readonly static Regex REGEX_ID = new Regex(@"(?:(?:v|vi|be|videos|embed)/(?!videoseries)|(?:v|ci)=)([\w-]{11})");
+        private readonly static Regex REGEX_ID = new Regex(@"(?:(?:v|vi|be|videos|embed)/(?!videoseries)|(?:v|ci)=)([\w-]{11})", RegexOptions.IgnoreCase);
 
         /// <summary>
         /// Create a new DurationHelper.YouTube object with a YouTube Data API v3 key.

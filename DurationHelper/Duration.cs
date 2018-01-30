@@ -53,6 +53,8 @@ namespace DurationHelper {
                         : await new YouTube(youTubeKey).GetDurationAsync(id);
                 case "vimeo":
                     return await Vimeo.GetDurationAsync(new Uri($"https://vimeo.com/{WebUtility.UrlEncode(id)}"));
+                case "dailymotion":
+                    return await Dailymotion.GetDurationAsync(id);
                 default:
                     // Unrecognized provider
                     return null;
@@ -74,6 +76,8 @@ namespace DurationHelper {
                 return youTubeKey == null
                     ? null
                     : await new YouTube(youTubeKey).GetDurationAsync(url);
+            } else if (url.Authority.EndsWith("dailymotion.com") || url.Authority.EndsWith("dai.ly")) {
+                return await Dailymotion.GetDurationAsync(url);
             } else {
                 return null;
             }

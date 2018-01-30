@@ -13,8 +13,6 @@ Supported formats:
 
 To extract the duration of an MP4 file, the moov atom, which contains duration info, must be in the first 256 bytes of the file.
 
-DurationHelper can also extract the ID and start, end, and autoplay parameters from a YouTube URL. Full (youtube.com) and short (youtu.be) URLs are supported.
-
 ## Usage
 
     async Task<TimeSpan?> Duration.GetAsync(Uri uri, string youTubeKey = null)
@@ -27,7 +25,7 @@ Although fractional seconds are sometimes included, some formats are only accura
 
 Parameters:
 
-* **url**: A public URL pointing to an MP4, HLS, YouTube, or Vimeo video
+* **url**: A public URL pointing to an MP4, HLS, YouTube, Dailymotion, or Vimeo video
 * **youTubeKey**: A YouTube Data API v3 key. If not provided, all YouTube URLs will return a duration of null, as if they were not recognized.
 
 Returns the duration, or null if the duration could not be determined.
@@ -40,7 +38,7 @@ duration can't be determined or if the provider is unrecognized.
 
 Parameters:
 
-* **provider**: The provider as given by [jsVideoUrlParser](https://github.com/Zod-/jsVideoUrlParser). Currently supported providers are "youtube" and "vimeo".
+* **provider**: The provider as given by [jsVideoUrlParser](https://github.com/Zod-/jsVideoUrlParser). Currently supported providers are "youtube", "dailymotion", and "vimeo".
 * **id**: The ID of the video.
 * **youTubeKey**: A YouTube Data API v3 key. If not provided, all YouTube URLs will return a duration of null, as if they were not recognized.
 
