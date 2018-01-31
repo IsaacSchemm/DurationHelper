@@ -46,8 +46,8 @@ namespace DurationHelper {
                         return new Twitch(obj.access_token, obj.expires_in);
                     }
                 }
-            } catch (WebException ex) when (ex.Response is HttpWebResponse r) {
-                throw await TwitchException.FromHttpWebResponseAsync(r);
+            } catch (WebException ex) when ((ex.Response as HttpWebResponse)?.StatusCode == (HttpStatusCode)429) {
+                throw new TooManyRequestsException("Twitch API request limit exceeded", ex);
             }
         }
 
@@ -69,8 +69,8 @@ namespace DurationHelper {
                         return XmlConvert.ToTimeSpan("PT" + obj.data?.Select(x => x.duration.ToUpperInvariant())?.FirstOrDefault());
                     }
                 }
-            } catch (WebException ex) when (ex.Response is HttpWebResponse r) {
-                throw await TwitchException.FromHttpWebResponseAsync(r);
+            } catch (WebException ex) when ((ex.Response as HttpWebResponse)?.StatusCode == (HttpStatusCode)429) {
+                throw new TooManyRequestsException("Twitch API request limit exceeded", ex);
             }
         }
         

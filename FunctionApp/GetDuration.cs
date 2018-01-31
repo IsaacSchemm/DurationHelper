@@ -30,14 +30,10 @@ namespace FunctionApp
                 ))?.TotalSeconds);
             } catch (VideoURLParseException ex) {
                 return new BadRequestErrorMessageResult(ex.Message);
-            } catch (YouTubeException ex) {
-                return new StatusCodeResult(ex.Reasons.Contains("quotaExceeded")
-                    ? 429
-                    : 502);
-            } catch (TwitchException ex) {
-                return new StatusCodeResult((int)ex.StatusCode == 429
-                    ? 429
-                    : 502);
+            } catch (TooManyRequestsException) {
+                return new StatusCodeResult(429);
+            } catch (YouTubeAPIException) {
+                return new StatusCodeResult(502);
             } catch (WebException) {
                 return new StatusCodeResult(502);
             } catch (Exception) {

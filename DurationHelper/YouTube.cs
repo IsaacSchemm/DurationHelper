@@ -42,7 +42,8 @@ namespace DurationHelper {
         /// <exception cref="WebException">The YouTube API request failed.</exception>
         /// <exception cref="JsonReaderException">The YouTube API response could not be deserialized.</exception>
         /// <exception cref="FormatException">The duration could not be parsed from the YouTube API response.</exception>
-        /// <exception cref="YouTubeException">A YouTube API error occurred.</exception>
+        /// <exception cref="YouTubeAPIException">A YouTube API error occurred.</exception>
+        /// <exception cref="TooManyRequestsException">The YouTube API quota has been exceeded.</exception>
         public async Task<TimeSpan> GetDurationAsync(string id) {
             if (id == null) throw new ArgumentNullException();
 
@@ -51,7 +52,8 @@ namespace DurationHelper {
             try {
                 using (var resp = await req.GetResponseAsync()) {
                     using (var sr = new StreamReader(resp.GetResponseStream())) {
-                        var obj = JsonConvert.DeserializeAnonymousType(await sr.ReadToEndAsync(), new {
+                        string json = await sr.ReadToEndAsync();
+                        var obj = JsonConvert.DeserializeAnonymousType(json, new {
                             items = new[] {
                                 new {
                                     id = "",
@@ -61,11 +63,12 @@ namespace DurationHelper {
                                 }
                             }
                         });
-                        return XmlConvert.ToTimeSpan(obj?.items?.Select(i => i.contentDetails.duration).FirstOrDefault());
+                        string ts = obj?.items?.Select(i => i.contentDetails.duration).FirstOrDefault();
+                        return XmlConvert.ToTimeSpan(ts);
                     }
                 }
             } catch (WebException ex) when (ex.Response is HttpWebResponse r) {
-                throw await YouTubeException.FromHttpWebResponseAsync(r);
+                throw await YouTubeAPIException.FromHttpWebResponseAsync(r);
             }
         }
 
@@ -79,7 +82,8 @@ namespace DurationHelper {
         /// <exception cref="WebException">The YouTube API request failed.</exception>
         /// <exception cref="JsonReaderException">The YouTube API response could not be deserialized.</exception>
         /// <exception cref="FormatException">The duration could not be parsed from the YouTube API response.</exception>
-        /// <exception cref="YouTubeException">A YouTube API error occurred.</exception>
+        /// <exception cref="YouTubeAPIException">A YouTube API error occurred.</exception>
+        /// <exception cref="TooManyRequestsException">The YouTube API quota has been exceeded.</exception>
         /// <exception cref="VideoURLParseException">The URL format was not recognized as a YouTube URL.</exception>
         public async Task<TimeSpan?> GetDurationAsync(Uri url) {
             if (url == null) throw new ArgumentNullException();

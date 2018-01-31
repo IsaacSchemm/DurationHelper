@@ -22,8 +22,9 @@ namespace DurationHelper {
         /// <exception cref="FormatException">The duration could not be parsed.</exception>
         /// <exception cref="OverflowException">An HLS chunklist contains a chunk length that is out of range.</exception>
         /// <exception cref="JsonReaderException">A JSON response could not be deserialized.</exception>
-        /// <exception cref="YouTubeException">A YouTube API error occurred.</exception>
-        /// <exception cref="VideoURLParseException">The URL was treated as YouTube but did not match a known YouTube URL format.</exception>
+        /// <exception cref="YouTubeAPIException">A YouTube API error occurred.</exception>
+        /// <exception cref="TooManyRequestsException">An API quota has been exceeded.</exception>
+        /// <exception cref="VideoURLParseException">The URL did not match a known URL format for its site.</exception>
         public static async Task<TimeSpan?> GetAsync(Uri url, string youTubeKey = null, string twitchClientId = null, string twitchSecret = null) {
             if (url == null) throw new ArgumentNullException();
 
@@ -47,7 +48,8 @@ namespace DurationHelper {
         /// <exception cref="WebException">An HTTP request failed or returned a status outside of the 200 range.</exception>
         /// <exception cref="FormatException">The duration could not be parsed.</exception>
         /// <exception cref="JsonReaderException">A JSON response could not be deserialized.</exception>
-        /// <exception cref="YouTubeException">A YouTube API error occurred.</exception>
+        /// <exception cref="YouTubeAPIException">A YouTube API error occurred.</exception>
+        /// <exception cref="TooManyRequestsException">An API quota has been exceeded.</exception>
         public static async Task<TimeSpan?> GetAsync(string provider, string id, string youTubeKey = null, string twitchClientId = null, string twitchSecret = null) {
             if (id == null) throw new ArgumentNullException(nameof(id));
 
