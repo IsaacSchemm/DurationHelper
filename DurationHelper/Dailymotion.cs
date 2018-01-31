@@ -30,18 +30,23 @@ namespace DurationHelper {
         /// <exception cref="ArgumentNullException">id is null.</exception>
         /// <exception cref="WebException">The Dailymotion API request failed or returned a status outside of the 200 range.</exception>
         /// <exception cref="JsonReaderException">The Dailymotion API response could not be deserialized.</exception>
+        /// <exception cref="VideoNotFoundException">No video was found at the given URL.</exception>
         public static async Task<TimeSpan> GetDurationAsync(string id) {
             if (id == null) throw new ArgumentNullException();
 
-            HttpWebRequest req = WebRequest.CreateHttp($"https://api.dailymotion.com/video/{WebUtility.UrlEncode(id)}?fields=duration");
-            req.UserAgent = Shared.UserAgent;
-            using (var resp = await req.GetResponseAsync()) {
-                using (var sr = new StreamReader(resp.GetResponseStream())) {
-                    var obj = JsonConvert.DeserializeAnonymousType(await sr.ReadToEndAsync(), new {
-                        duration = 0.0
-                    });
-                    return TimeSpan.FromSeconds(obj.duration);
+            try {
+                HttpWebRequest req = WebRequest.CreateHttp($"https://api.dailymotion.com/video/{WebUtility.UrlEncode(id)}?fields=duration");
+                req.UserAgent = Shared.UserAgent;
+                using (var resp = await req.GetResponseAsync()) {
+                    using (var sr = new StreamReader(resp.GetResponseStream())) {
+                        var obj = JsonConvert.DeserializeAnonymousType(await sr.ReadToEndAsync(), new {
+                            duration = 0.0
+                        });
+                        return TimeSpan.FromSeconds(obj.duration);
+                    }
                 }
+            } catch (WebException ex) when ((ex.Response as HttpWebResponse)?.StatusCode == HttpStatusCode.NotFound) {
+                throw new VideoNotFoundException(ex);
             }
         }
 

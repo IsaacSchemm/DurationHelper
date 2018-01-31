@@ -30,6 +30,8 @@ namespace FunctionApp
                 ))?.TotalSeconds);
             } catch (VideoURLParseException ex) {
                 return new BadRequestErrorMessageResult(ex.Message);
+            } catch (VideoNotFoundException) {
+                return new StatusCodeResult(404);
             } catch (TooManyRequestsException) {
                 return new StatusCodeResult(429);
             } catch (YouTubeAPIException) {

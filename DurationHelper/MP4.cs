@@ -72,16 +72,21 @@ namespace DurationHelper {
         /// <exception cref="ArgumentNullException">url is null.</exception>
         /// <exception cref="ArgumentOutOfRangeException">range is less than 0.</exception>
         /// <exception cref="WebException">The HTTP request failed or returned a status outside of the 200 range.</exception>
+        /// <exception cref="VideoNotFoundException">No video was found at the given URL.</exception>
         public static async Task<TimeSpan?> GetDurationAsync(Uri url, int range = 256) {
             if (url == null) throw new ArgumentNullException();
 
-            HttpWebRequest req = WebRequest.CreateHttp(url);
-            req.UserAgent = Shared.UserAgent;
-            req.AddRange(0, range);
-            using (var resp = await req.GetResponseAsync()) {
-                using (var stream = resp.GetResponseStream()) {
-                    return await GetDurationAsync(stream);
+            try { 
+                HttpWebRequest req = WebRequest.CreateHttp(url);
+                req.UserAgent = Shared.UserAgent;
+                req.AddRange(0, range);
+                using (var resp = await req.GetResponseAsync()) {
+                    using (var stream = resp.GetResponseStream()) {
+                        return await GetDurationAsync(stream);
+                    }
                 }
+            } catch (WebException ex) when ((ex.Response as HttpWebResponse)?.StatusCode == HttpStatusCode.NotFound) {
+                throw new VideoNotFoundException(ex);
             }
         }
     }

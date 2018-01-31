@@ -24,6 +24,7 @@ namespace DurationHelper {
         /// <exception cref="JsonReaderException">A JSON response could not be deserialized.</exception>
         /// <exception cref="YouTubeAPIException">A YouTube API error occurred.</exception>
         /// <exception cref="TooManyRequestsException">An API quota has been exceeded.</exception>
+        /// <exception cref="VideoNotFoundException">No video was found at the given URL.</exception>
         /// <exception cref="VideoURLParseException">The URL did not match a known URL format for its site.</exception>
         public static async Task<TimeSpan?> GetAsync(Uri url, string youTubeKey = null, string twitchClientId = null, string twitchSecret = null) {
             if (url == null) throw new ArgumentNullException();
@@ -100,18 +101,22 @@ namespace DurationHelper {
             if (url == null) throw new ArgumentNullException();
 
             // Get content type
-            HttpWebRequest req = WebRequest.CreateHttp(url);
-            req.UserAgent = Shared.UserAgent;
-            req.Method = "HEAD";
-            using (var resp = await req.GetResponseAsync()) {
-                switch (resp.ContentType) {
-                    case "application/vnd.apple.mpegurl":
-                        return await HLS.GetPlaylistDurationAsync(url);
-                    case "video/mp4":
-                        return await MP4.GetDurationAsync(url);
-                    default:
-                        return null;
+            try { 
+                HttpWebRequest req = WebRequest.CreateHttp(url);
+                req.UserAgent = Shared.UserAgent;
+                req.Method = "HEAD";
+                using (var resp = await req.GetResponseAsync()) {
+                    switch (resp.ContentType) {
+                        case "application/vnd.apple.mpegurl":
+                            return await HLS.GetPlaylistDurationAsync(url);
+                        case "video/mp4":
+                            return await MP4.GetDurationAsync(url);
+                        default:
+                            return null;
+                    }
                 }
+            } catch (WebException ex) when ((ex.Response as HttpWebResponse)?.StatusCode == HttpStatusCode.NotFound) {
+                throw new VideoNotFoundException(ex);
             }
         }
     }

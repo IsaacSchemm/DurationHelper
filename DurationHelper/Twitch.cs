@@ -69,6 +69,8 @@ namespace DurationHelper {
                         return XmlConvert.ToTimeSpan("PT" + obj.data?.Select(x => x.duration.ToUpperInvariant())?.FirstOrDefault());
                     }
                 }
+            } catch (WebException ex) when ((ex.Response as HttpWebResponse)?.StatusCode == HttpStatusCode.NotFound) {
+                throw new VideoNotFoundException(ex);
             } catch (WebException ex) when ((ex.Response as HttpWebResponse)?.StatusCode == (HttpStatusCode)429) {
                 throw new TooManyRequestsException("Twitch API request limit exceeded", ex);
             }

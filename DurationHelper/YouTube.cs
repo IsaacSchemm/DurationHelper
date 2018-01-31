@@ -44,6 +44,7 @@ namespace DurationHelper {
         /// <exception cref="FormatException">The duration could not be parsed from the YouTube API response.</exception>
         /// <exception cref="YouTubeAPIException">A YouTube API error occurred.</exception>
         /// <exception cref="TooManyRequestsException">The YouTube API quota has been exceeded.</exception>
+        /// <exception cref="VideoNotFoundException">No video was found at the given URL.</exception>
         public async Task<TimeSpan> GetDurationAsync(string id) {
             if (id == null) throw new ArgumentNullException();
 
@@ -64,7 +65,11 @@ namespace DurationHelper {
                             }
                         });
                         string ts = obj?.items?.Select(i => i.contentDetails.duration).FirstOrDefault();
-                        return XmlConvert.ToTimeSpan(ts);
+                        if (ts == null) {
+                            throw new VideoNotFoundException();
+                        } else {
+                            return XmlConvert.ToTimeSpan(ts);
+                        }
                     }
                 }
             } catch (WebException ex) when (ex.Response is HttpWebResponse r) {
