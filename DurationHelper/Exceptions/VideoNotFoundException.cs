@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DurationHelper
-{
+namespace DurationHelper.Exceptions {
     public class VideoNotFoundException : Exception {
         public VideoNotFoundException() : base("Video not found") { }
 

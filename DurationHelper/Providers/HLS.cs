@@ -1,9 +1,10 @@
-﻿using System;
+﻿using DurationHelper.Exceptions;
+using System;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace DurationHelper {
+namespace DurationHelper.Providers {
     public static class HLS {
         /// <summary>
         /// Find the duration of an HLS playlist (if any.)

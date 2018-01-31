@@ -7,7 +7,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DurationHelper {
+namespace DurationHelper.Exceptions {
     public class YouTubeAPIException : Exception {
         public readonly HttpStatusCode? StatusCode;
         public readonly string ResponseText;

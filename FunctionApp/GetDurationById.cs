@@ -9,6 +9,7 @@ using System.Net;
 using DurationHelper;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using DurationHelper.Exceptions;
 
 namespace FunctionApp
 {
@@ -32,10 +33,12 @@ namespace FunctionApp
                     twitchClientId: Environment.GetEnvironmentVariable("TwitchClientId"),
                     twitchSecret: Environment.GetEnvironmentVariable("TwitchSecret")
                 ))?.TotalSeconds);
-            } catch (YouTubeAPIException ex) {
-                return new StatusCodeResult(ex.Reasons.Contains("quotaExceeded")
-                    ? 429
-                    : 502);
+            } catch (VideoNotFoundException) {
+                return new StatusCodeResult(404);
+            } catch (TooManyRequestsException) {
+                return new StatusCodeResult(429);
+            } catch (YouTubeAPIException) {
+                return new StatusCodeResult(502);
             } catch (WebException) {
                 return new StatusCodeResult(502);
             } catch (Exception) {

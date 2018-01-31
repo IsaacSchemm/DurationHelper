@@ -1,11 +1,12 @@
-﻿using System;
+﻿using DurationHelper.Exceptions;
+using System;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DurationHelper {
+namespace DurationHelper.Providers {
     public static class MP4 {
         /// <summary>
         /// Find the duration of an MP4 file from a Stream.

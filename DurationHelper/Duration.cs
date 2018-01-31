@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DurationHelper.Exceptions;
+using DurationHelper.Providers;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
@@ -51,6 +53,7 @@ namespace DurationHelper {
         /// <exception cref="JsonReaderException">A JSON response could not be deserialized.</exception>
         /// <exception cref="YouTubeAPIException">A YouTube API error occurred.</exception>
         /// <exception cref="TooManyRequestsException">An API quota has been exceeded.</exception>
+        /// <exception cref="VideoNotFoundException">No video was found at the given URL.</exception>
         public static async Task<TimeSpan?> GetAsync(string provider, string id, string youTubeKey = null, string twitchClientId = null, string twitchSecret = null) {
             if (id == null) throw new ArgumentNullException(nameof(id));
 

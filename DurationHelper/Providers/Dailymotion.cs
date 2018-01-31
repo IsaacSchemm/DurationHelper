@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using DurationHelper.Exceptions;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,7 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace DurationHelper {
+namespace DurationHelper.Providers {
     public static class Dailymotion {
         private readonly static Regex REGEX_ID = new Regex(@"(?:/video|ly)/([A-Za-z0-9]+)", RegexOptions.IgnoreCase);
 

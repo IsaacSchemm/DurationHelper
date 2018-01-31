@@ -1,10 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using DurationHelper.Exceptions;
+using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace DurationHelper {
+namespace DurationHelper.Providers {
     public static class Vimeo {
         /// <summary>
         /// Find the duration of a Vimeo video by its URL.

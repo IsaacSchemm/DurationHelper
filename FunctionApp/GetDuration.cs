@@ -9,6 +9,7 @@ using System.Net;
 using DurationHelper;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using DurationHelper.Exceptions;
 
 namespace FunctionApp
 {

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using DurationHelper.Exceptions;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,7 +10,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace DurationHelper {
+namespace DurationHelper.Providers {
     public class Twitch {
         private string _accessToken;
         public readonly DateTimeOffset ExpirationDate;
