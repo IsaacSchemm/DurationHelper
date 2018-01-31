@@ -12,13 +12,14 @@ Tries to get the duration of a video. Although fractional seconds are sometimes 
 
 Parameters:
 
-* **url**: A public URL pointing to an MP4, HLS, YouTube, Dailymotion, or Vimeo video.
+* **url**: A public URL pointing to an MP4, HLS, YouTube, Dailymotion, Twitch, or Vimeo video.
 
 **HTTP response codes**
 
 * **200**: Duration found
 * **204**: Duration unknown
 * **400**: Missing or invalid URL
+* **429**: YouTube or Twitch API rate limit exceeded
 * **500**: An unknown error occurred
 * **502**: A URL could not be loaded, or a YouTube API error occurred
 
@@ -38,7 +39,7 @@ Tries to get the duration of a video hosted on a given provider.
 
 Parameters:
 
-* **provider**: The provider as given by [jsVideoUrlParser](https://github.com/Zod-/jsVideoUrlParser). Currently supported providers are "youtube", "dailymotion", and "vimeo".
+* **provider**: The provider as given by [jsVideoUrlParser](https://github.com/Zod-/jsVideoUrlParser). Currently supported providers are "youtube", "dailymotion", "twitch", and "vimeo".
 * **id**: The ID of the video.
 
 **HTTP response codes**
@@ -46,6 +47,7 @@ Parameters:
 * **200**: Duration found
 * **204**: Duration unknown
 * **400**: Missing or invalid parameters
+* **429**: YouTube or Twitch API rate limit exceeded
 * **500**: An unknown error occurred
 * **502**: A URL could not be loaded, or a YouTube API error occurred
 
