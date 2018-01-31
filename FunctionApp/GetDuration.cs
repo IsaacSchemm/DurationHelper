@@ -10,6 +10,7 @@ using DurationHelper;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using DurationHelper.Exceptions;
+using DurationHelper.Credentials;
 
 namespace FunctionApp
 {
@@ -26,8 +27,9 @@ namespace FunctionApp
                 return new OkObjectResult((await Duration.GetAsync(
                     uri,
                     youTubeKey: Environment.GetEnvironmentVariable("YouTubeKey"),
-                    twitchClientId: Environment.GetEnvironmentVariable("TwitchClientId"),
-                    twitchSecret: Environment.GetEnvironmentVariable("TwitchClientSecret")
+                    twitchCredentials: new TwitchClientCredentials(
+                        Environment.GetEnvironmentVariable("TwitchClientId"),
+                        Environment.GetEnvironmentVariable("TwitchClientSecret"))
                 ))?.TotalSeconds);
             } catch (VideoURLParseException ex) {
                 return new BadRequestErrorMessageResult(ex.Message);

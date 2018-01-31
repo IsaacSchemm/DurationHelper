@@ -10,6 +10,7 @@ using DurationHelper;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using DurationHelper.Exceptions;
+using DurationHelper.Credentials;
 
 namespace FunctionApp
 {
@@ -30,8 +31,9 @@ namespace FunctionApp
                     req.Query["provider"],
                     req.Query["id"],
                     youTubeKey: Environment.GetEnvironmentVariable("YouTubeKey"),
-                    twitchClientId: Environment.GetEnvironmentVariable("TwitchClientId"),
-                    twitchSecret: Environment.GetEnvironmentVariable("TwitchSecret")
+                    twitchCredentials: new TwitchClientCredentials(
+                        Environment.GetEnvironmentVariable("TwitchClientId"),
+                        Environment.GetEnvironmentVariable("TwitchClientSecret"))
                 ))?.TotalSeconds);
             } catch (VideoNotFoundException) {
                 return new StatusCodeResult(404);

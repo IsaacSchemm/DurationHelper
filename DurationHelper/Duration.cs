@@ -1,4 +1,5 @@
-﻿using DurationHelper.Exceptions;
+﻿using DurationHelper.Credentials;
+using DurationHelper.Exceptions;
 using DurationHelper.Providers;
 using System;
 using System.Collections.Generic;
@@ -16,8 +17,7 @@ namespace DurationHelper {
         /// </summary>
         /// <param name="url">A public URL pointing to an MP4, HLS, youTube, or Vimeo video</param>
         /// <param name="youTubeKey">A YouTube Data API v3 key. If not provided, all YouTube URLs will return a duration of null, as if they were not recognized.</param>
-        /// <param name="twitchClientId">A Twitch API client ID. If not provided, all Twitch URLs will return null.</param>
-        /// <param name="twitchSecret">A Twitch API client secret. If not provided, all Twitch URLs will return null.</param>
+        /// <param name="twitchCredentials">Twitch API credentials. If not provided, all Twitch URLs will return null.</param>
         /// <returns>The duration, or null if the duration could not be determined.</returns>
         /// <exception cref="ArgumentNullException">url is null.</exception>
         /// <exception cref="WebException">An HTTP request failed or returned a status outside of the 200 range.</exception>
@@ -28,10 +28,10 @@ namespace DurationHelper {
         /// <exception cref="TooManyRequestsException">An API quota has been exceeded.</exception>
         /// <exception cref="VideoNotFoundException">No video was found at the given URL.</exception>
         /// <exception cref="VideoURLParseException">The URL did not match a known URL format for its site.</exception>
-        public static async Task<TimeSpan?> GetAsync(Uri url, string youTubeKey = null, string twitchClientId = null, string twitchSecret = null) {
+        public static async Task<TimeSpan?> GetAsync(Uri url, string youTubeKey = null, ITwitchCredentials twitchCredentials = null) {
             if (url == null) throw new ArgumentNullException();
 
-            return await GetByNameAsync(url, youTubeKey: youTubeKey, twitchClientId: twitchClientId, twitchSecret: twitchSecret)
+            return await GetByNameAsync(url, youTubeKey: youTubeKey, twitchCredentials: twitchCredentials)
                 ?? await GetByContentTypeAsync(url);
         }
 
@@ -44,8 +44,7 @@ namespace DurationHelper {
         /// <param name="provider">The video provider as given by jsVideoUrlParser, e.g. "youtube" or "vimeo"</param>
         /// <param name="id">The video ID</param>
         /// <param name="youTubeKey">A YouTube Data API v3 key. If not provided, all YouTube URLs will return a duration of null, as if they were not recognized.</param>
-        /// <param name="twitchClientId">A Twitch API client ID. If not provided, all Twitch URLs will return null.</param>
-        /// <param name="twitchSecret">A Twitch API client secret. If not provided, all Twitch URLs will return null.</param>
+        /// <param name="twitchCredentials">Twitch API credentials. If not provided, all Twitch URLs will return null.</param>
         /// <returns>The duration, or null if the duration could not be determined.</returns>
         /// <exception cref="ArgumentNullException">id is null.</exception>
         /// <exception cref="WebException">An HTTP request failed or returned a status outside of the 200 range.</exception>
@@ -54,7 +53,7 @@ namespace DurationHelper {
         /// <exception cref="YouTubeAPIException">A YouTube API error occurred.</exception>
         /// <exception cref="TooManyRequestsException">An API quota has been exceeded.</exception>
         /// <exception cref="VideoNotFoundException">No video was found at the given URL.</exception>
-        public static async Task<TimeSpan?> GetAsync(string provider, string id, string youTubeKey = null, string twitchClientId = null, string twitchSecret = null) {
+        public static async Task<TimeSpan?> GetAsync(string provider, string id, string youTubeKey = null, ITwitchCredentials twitchCredentials = null) {
             if (id == null) throw new ArgumentNullException(nameof(id));
 
             switch (provider) {
@@ -67,15 +66,14 @@ namespace DurationHelper {
                 case "dailymotion":
                     return await Dailymotion.GetDurationAsync(id);
                 case "twitch":
-                    var twitch = await Twitch.CreateAsync(twitchClientId, twitchSecret);
-                    return await twitch.GetDurationAsync(id);
+                    return await new Twitch(twitchCredentials).GetDurationAsync(id);
                 default:
                     // Unrecognized provider
                     return null;
             }
         }
 
-        private static async Task<TimeSpan?> GetByNameAsync(Uri url, string youTubeKey = null, string twitchClientId = null, string twitchSecret = null) {
+        private static async Task<TimeSpan?> GetByNameAsync(Uri url, string youTubeKey = null, ITwitchCredentials twitchCredentials = null) {
             if (url == null) throw new ArgumentNullException();
 
             if (url.AbsolutePath.EndsWith(".mp4", StringComparison.InvariantCultureIgnoreCase)) {
@@ -93,8 +91,7 @@ namespace DurationHelper {
             } else if (url.Authority.EndsWith("dailymotion.com") || url.Authority.EndsWith("dai.ly")) {
                 return await Dailymotion.GetDurationAsync(url);
             } else if (url.Authority.EndsWith("twitch.tv")) {
-                var twitch = await Twitch.CreateAsync(twitchClientId, twitchSecret);
-                return await twitch.GetDurationAsync(url);
+                return await new Twitch(twitchCredentials).GetDurationAsync(url);
             } else {
                 return null;
             }
