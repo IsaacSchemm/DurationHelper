@@ -35,15 +35,19 @@ namespace DurationHelper {
         public static async Task<Twitch> CreateAsync(string clientId, string clientSecret) {
             var req = WebRequest.CreateHttp($"https://api.twitch.tv/kraken/oauth2/token?client_id={WebUtility.UrlEncode(clientId)}&client_secret={WebUtility.UrlEncode(clientSecret)}&grant_type=client_credentials");
             req.Method = "POST";
-            using (var resp = await req.GetResponseAsync()) {
-                using (var sr = new StreamReader(resp.GetResponseStream())) {
-                    string json = await sr.ReadToEndAsync();
-                    var obj = JsonConvert.DeserializeAnonymousType(json, new {
-                        access_token = "",
-                        expires_in = 0.0
-                    });
-                    return new Twitch(obj.access_token, obj.expires_in);
+            try { 
+                using (var resp = await req.GetResponseAsync()) {
+                    using (var sr = new StreamReader(resp.GetResponseStream())) {
+                        string json = await sr.ReadToEndAsync();
+                        var obj = JsonConvert.DeserializeAnonymousType(json, new {
+                            access_token = "",
+                            expires_in = 0.0
+                        });
+                        return new Twitch(obj.access_token, obj.expires_in);
+                    }
                 }
+            } catch (WebException ex) when (ex.Response is HttpWebResponse r) {
+                throw await TwitchException.FromHttpWebResponseAsync(r);
             }
         }
 
@@ -51,18 +55,22 @@ namespace DurationHelper {
             var req = WebRequest.CreateHttp($"https://api.twitch.tv/helix/videos?id={id}");
             req.Method = "GET";
             req.Headers.Add("Authorization", "Bearer " + _accessToken);
-            using (var resp = await req.GetResponseAsync()) {
-                using (var sr = new StreamReader(resp.GetResponseStream())) {
-                    string json = await sr.ReadToEndAsync();
-                    var obj = JsonConvert.DeserializeAnonymousType(json, new {
-                        data = new [] {
-                            new {
-                                duration = ""
+            try { 
+                using (var resp = await req.GetResponseAsync()) {
+                    using (var sr = new StreamReader(resp.GetResponseStream())) {
+                        string json = await sr.ReadToEndAsync();
+                        var obj = JsonConvert.DeserializeAnonymousType(json, new {
+                            data = new [] {
+                                new {
+                                    duration = ""
+                                }
                             }
-                        }
-                    });
-                    return XmlConvert.ToTimeSpan("PT" + obj.data?.Select(x => x.duration.ToUpperInvariant())?.FirstOrDefault());
+                        });
+                        return XmlConvert.ToTimeSpan("PT" + obj.data?.Select(x => x.duration.ToUpperInvariant())?.FirstOrDefault());
+                    }
                 }
+            } catch (WebException ex) when (ex.Response is HttpWebResponse r) {
+                throw await TwitchException.FromHttpWebResponseAsync(r);
             }
         }
         

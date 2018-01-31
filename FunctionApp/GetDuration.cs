@@ -34,6 +34,10 @@ namespace FunctionApp
                 return new StatusCodeResult(ex.Reasons.Contains("quotaExceeded")
                     ? 429
                     : 502);
+            } catch (TwitchException ex) {
+                return new StatusCodeResult((int)ex.StatusCode == 429
+                    ? 429
+                    : 502);
             } catch (WebException) {
                 return new StatusCodeResult(502);
             } catch (Exception) {

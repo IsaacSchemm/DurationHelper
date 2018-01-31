@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace DurationHelper {
     public class YouTubeException : Exception {
-        public readonly IReadOnlyList<string> Reasons;
         public readonly HttpStatusCode? StatusCode;
+        public readonly string ResponseText;
+        public readonly IReadOnlyList<string> Reasons;
         
-        public YouTubeException(string message) : base(message) { }
-
-        private YouTubeException(HttpStatusCode code, string message, IEnumerable<string> reasons) : base(message) {
+        public YouTubeException(HttpStatusCode code, string response, string message, IEnumerable<string> reasons) : base(message) {
             StatusCode = code;
-            Reasons = reasons.ToList();
+            ResponseText = response;
+            Reasons = reasons?.ToList();
         }
 
         public static async Task<YouTubeException> FromHttpWebResponseAsync(HttpWebResponse r) {
@@ -38,6 +38,7 @@ namespace DurationHelper {
                 });
                 return new YouTubeException(
                     r.StatusCode,
+                    json,
                     o?.error?.message ?? "A YouTube Data API error occurred",
                     o?.error?.errors?.Select(x => x.reason));
             }
