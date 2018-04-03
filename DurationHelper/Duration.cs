@@ -92,6 +92,8 @@ namespace DurationHelper {
                 return await Dailymotion.GetDurationAsync(url);
             } else if (url.Authority.EndsWith("twitch.tv")) {
                 return await new Twitch(twitchCredentials).GetDurationAsync(url);
+            } else if (url.Authority.EndsWith("soundcloud.com")) {
+                return await SoundCloud.GetDurationAsync(url);
             } else {
                 return null;
             }

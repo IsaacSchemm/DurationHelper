@@ -12,7 +12,7 @@ Tries to get the duration of a video. Although fractional seconds are sometimes 
 
 Parameters:
 
-* **url**: A public URL pointing to an MP4, HLS, YouTube, Dailymotion, Twitch, or Vimeo video.
+* **url**: A public URL pointing to an MP4, HLS, YouTube, Dailymotion, Twitch, or Vimeo video, or a SoundCloud post.
 
 **HTTP response codes**
 
