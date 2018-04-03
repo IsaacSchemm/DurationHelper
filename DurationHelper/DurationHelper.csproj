@@ -12,10 +12,10 @@
     <RepositoryType>git</RepositoryType>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageReleaseNotes></PackageReleaseNotes>
-    <Description>A .NET library to get duration of a video from its URL. Supports MP4, HLS (VOD), YouTube (if you provide an API key), and Vimeo.</Description>
-    <Version>2.0.0</Version>
-    <AssemblyVersion>2.0.0.0</AssemblyVersion>
-    <FileVersion>2.0.0.0</FileVersion>
+    <Description>A .NET library to get duration of a video from its URL. Supports MP4, HLS (VOD), YouTube and Twitch (if you provide API keys), Vimeo, Dailymotion, and SoundCloud.</Description>
+    <Version>2.1.0</Version>
+    <AssemblyVersion>2.1.0.0</AssemblyVersion>
+    <FileVersion>2.1.0.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
