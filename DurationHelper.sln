@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DurationHelper", "DurationH
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FunctionApp", "FunctionApp\FunctionApp.csproj", "{F6CDA707-B398-4305-86F9-B7D11BD894EB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DurationHelper.Tests", "DurationHelper.Tests\DurationHelper.Tests.csproj", "{BE7A03AD-B30B-4460-9917-E977B29D51AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{F6CDA707-B398-4305-86F9-B7D11BD894EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6CDA707-B398-4305-86F9-B7D11BD894EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6CDA707-B398-4305-86F9-B7D11BD894EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE7A03AD-B30B-4460-9917-E977B29D51AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE7A03AD-B30B-4460-9917-E977B29D51AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE7A03AD-B30B-4460-9917-E977B29D51AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE7A03AD-B30B-4460-9917-E977B29D51AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
