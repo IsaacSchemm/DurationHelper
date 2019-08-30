@@ -1,8 +1,6 @@
 # DurationHelper FunctionApp
 
-If the application you're working on doesn't use .NET, you could deploy this project to your Azure account (using a Consumption plan) and access it over HTTP.
-
-[Try it](https://www.lakora.us/DurationHelper/api.html)
+If the application you're working on doesn't use .NET, you could deploy this project to your Azure account and access it over HTTP.
 
 ### get-duration
 
