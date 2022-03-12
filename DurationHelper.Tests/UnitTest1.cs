@@ -20,8 +20,10 @@ namespace DurationHelper.Tests {
             return false;
         }
 
+        private const string youTubeKey = "";
+
         private async Task TestUrl(double? expected, string url) {
-            TimeSpan? duration = await Duration.GetAsync(new Uri(url));
+            TimeSpan? duration = await Duration.GetAsync(new Uri(url), youTubeKey: youTubeKey);
             if (expected is double d) {
                 if (duration is TimeSpan ts) {
                     Assert.AreEqual(d, ts.TotalSeconds, 0.1);
@@ -33,6 +35,15 @@ namespace DurationHelper.Tests {
             } else {
                 Assert.IsNull(duration);
             }
+        }
+
+        [TestMethod]
+        public async Task TestYouTube() {
+            if (youTubeKey == null) Assert.Inconclusive();
+            await TestUrl(424, "https://youtu.be/bMZIG-iMS9k");
+            await TestUrl(424, "https://www.youtube.com/watch?v=bMZIG-iMS9k");
+            await TestUrl(424, "https://www.youtube.com/embed/bMZIG-iMS9k");
+            await TestUrl(null, "https://www.example.com/?v=bMZIG-iMS9k");
         }
 
         [TestMethod]
@@ -56,8 +67,13 @@ namespace DurationHelper.Tests {
         }
 
         [TestMethod]
+        public async Task TestHLS_2C() {
+            await TestUrl(600, "https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_ts/v5/prog_index.m3u8");
+        }
+
+        [TestMethod]
         public async Task TestHLS_3() {
-            await TestUrl(null, "http://b028.wpc.azureedge.net/80B028/Samples/a38e6323-95e9-4f1f-9b38-75eba91704e4/5f2ce531-d508-49fb-8152-647eba422aec.ism/Manifest(format=m3u8-aapl)");
+            await TestUrl(null, "https://cph-p2p-msl.akamaized.net/hls/live/2000341/test/master.m3u8");
         }
 
         [TestMethod]
