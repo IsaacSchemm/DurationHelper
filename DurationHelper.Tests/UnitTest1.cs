@@ -20,7 +20,7 @@ namespace DurationHelper.Tests {
             return false;
         }
 
-        private const string youTubeKey = "";
+        private const string youTubeKey = null;
 
         private async Task TestUrl(double? expected, string url) {
             TimeSpan? duration = await Duration.GetAsync(new Uri(url), youTubeKey: youTubeKey);
@@ -64,11 +64,6 @@ namespace DurationHelper.Tests {
         [TestMethod]
         public async Task TestHLS_2() {
             await TestUrl(600, "https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_ts/master.m3u8");
-        }
-
-        [TestMethod]
-        public async Task TestHLS_2C() {
-            await TestUrl(600, "https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_ts/v5/prog_index.m3u8");
         }
 
         [TestMethod]
