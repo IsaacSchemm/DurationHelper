@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
+using DurationHelper.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DurationHelper.Tests {
@@ -35,12 +36,35 @@ namespace DurationHelper.Tests {
             }
         }
 
+        [TestMethod, ExpectedException(typeof(VideoNotFoundException))]
+        public async Task Test404() {
+            await TestUrl(null, "https://www.example.com/3dec9b4e-edeb-4365-89a7-83e9b6c10e1d");
+        }
+
         [TestMethod]
-        public async Task TestYouTube() {
+        public async Task TestYouTube_1() {
             await TestUrl(424, "https://youtu.be/bMZIG-iMS9k");
             await TestUrl(424, "https://www.youtube.com/watch?v=bMZIG-iMS9k");
+        }
+
+        [TestMethod]
+        public async Task TestYouTube_2() {
             await TestUrl(424, "https://www.youtube.com/embed/bMZIG-iMS9k");
+        }
+
+        [TestMethod]
+        public async Task TestYouTube_3() {
             await TestUrl(null, "https://www.example.com/?v=bMZIG-iMS9k");
+        }
+
+        [TestMethod]
+        public async Task TestRedirect_1() {
+            await TestUrl(424, "https://tinyurl.com/mshmkvyf");
+        }
+
+        [TestMethod]
+        public async Task TestRedirect_2() {
+            await TestUrl(210, "https://tinyurl.com/3e7wahxj");
         }
 
         [TestMethod]
@@ -55,7 +79,7 @@ namespace DurationHelper.Tests {
 
         [TestMethod]
         public async Task TestMP4_3() {
-            await TestUrl(30, "https://archive.org/download/SampleVideo1280x7205mb/SampleVideo_1280x720_5mb.mp4");
+            await TestUrl(29.568, "https://archive.org/download/SampleVideo1280x7205mb/SampleVideo_1280x720_5mb.mp4");
         }
 
         [TestMethod]
@@ -96,6 +120,31 @@ namespace DurationHelper.Tests {
         [TestMethod]
         public async Task TestSoundCloud_1() {
             await TestUrl(280, "https://soundcloud.com/jamieirl/pass-feat-marcy-nabors");
+        }
+
+        [TestMethod]
+        public async Task TestCircular_1() {
+            await TestUrl(715, "https://www.lakora.us/durationfinder/circular1.html");
+        }
+
+        [TestMethod]
+        public async Task TestCircular_2() {
+            await TestUrl(715, "https://www.lakora.us/durationfinder/circular2.html");
+        }
+
+        [TestMethod]
+        public async Task TestCircular_3() {
+            await TestUrl(715, "https://www.lakora.us/durationfinder/circular3.html");
+        }
+
+        [TestMethod]
+        public async Task TestCircular_A() {
+            await TestUrl(null, "https://www.lakora.us/durationfinder/circularA.html");
+        }
+
+        [TestMethod]
+        public async Task TestCircular_B() {
+            await TestUrl(null, "https://www.lakora.us/durationfinder/circularB.html");
         }
     }
 }
