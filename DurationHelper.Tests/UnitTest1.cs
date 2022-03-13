@@ -20,10 +20,8 @@ namespace DurationHelper.Tests {
             return false;
         }
 
-        private const string youTubeKey = null;
-
         private async Task TestUrl(double? expected, string url) {
-            TimeSpan? duration = await Duration.GetAsync(new Uri(url), youTubeKey: youTubeKey);
+            TimeSpan? duration = await Duration.GetAsync(new Uri(url));
             if (expected is double d) {
                 if (duration is TimeSpan ts) {
                     Assert.AreEqual(d, ts.TotalSeconds, 0.1);
@@ -39,7 +37,6 @@ namespace DurationHelper.Tests {
 
         [TestMethod]
         public async Task TestYouTube() {
-            if (youTubeKey == null) Assert.Inconclusive();
             await TestUrl(424, "https://youtu.be/bMZIG-iMS9k");
             await TestUrl(424, "https://www.youtube.com/watch?v=bMZIG-iMS9k");
             await TestUrl(424, "https://www.youtube.com/embed/bMZIG-iMS9k");
@@ -54,6 +51,11 @@ namespace DurationHelper.Tests {
         [TestMethod]
         public async Task TestMP4_2() {
             await TestUrl(653.804263, "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4");
+        }
+
+        [TestMethod]
+        public async Task TestMP4_3() {
+            await TestUrl(30, "https://archive.org/download/SampleVideo1280x7205mb/SampleVideo_1280x720_5mb.mp4");
         }
 
         [TestMethod]
