@@ -4,17 +4,7 @@ https://www.nuget.org/packages/DurationHelper
 
 DurationHelper is a .NET Standard library that does its best to determine the duration of a video when given its URL.
 
-Supported formats:
-
-* MP4
-* HLS video-on-demand (VOD)
-* YouTube
-* Vimeo
-* Dailymotion
-* Twitch
-* SoundCloud
-
-To extract the duration of an MP4 file, the moov atom, which contains duration info, must be in the first 256 bytes of the file.
+**This library is now deprecated; version 3.x is a wrapper around [DurationFinder](https://www.nuget.org/packages/ISchemm.DurationFinder), albeit with Twitch support added.**
 
 ## Usage
 
@@ -51,9 +41,3 @@ Parameters:
 Returns the duration, or null if the duration could not be determined.
 
 Other functions are available - see the source code for more details.
-
-## Azure Functions API
-
-The source code to DurationHelper includes an Azure Functions project. If the application you're working on doesn't use .NET, you could deploy this project to your Azure account (using a Consumption plan) and access it over HTTP.
-
-See FunctionApp/README.md for more information.
