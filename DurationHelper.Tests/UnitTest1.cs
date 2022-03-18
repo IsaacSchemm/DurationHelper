@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
-using DurationHelper.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DurationHelper.Tests {
@@ -34,11 +33,6 @@ namespace DurationHelper.Tests {
             } else {
                 Assert.IsNull(duration);
             }
-        }
-
-        [TestMethod, ExpectedException(typeof(VideoNotFoundException))]
-        public async Task Test404() {
-            await TestUrl(null, "https://www.example.com/3dec9b4e-edeb-4365-89a7-83e9b6c10e1d");
         }
 
         [TestMethod]

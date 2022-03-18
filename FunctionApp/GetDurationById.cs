@@ -8,8 +8,6 @@ using System.Web.Http;
 using System.Net;
 using DurationHelper;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
-using DurationHelper.Exceptions;
 using DurationHelper.Credentials;
 
 namespace FunctionApp
@@ -35,12 +33,6 @@ namespace FunctionApp
                         Environment.GetEnvironmentVariable("TwitchClientId"),
                         Environment.GetEnvironmentVariable("TwitchClientSecret"))
                 ))?.TotalSeconds);
-            } catch (VideoNotFoundException) {
-                return new StatusCodeResult(404);
-            } catch (TooManyRequestsException) {
-                return new StatusCodeResult(429);
-            } catch (YouTubeAPIException) {
-                return new StatusCodeResult(502);
             } catch (WebException) {
                 return new StatusCodeResult(502);
             } catch (Exception) {
