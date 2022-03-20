@@ -16,7 +16,7 @@ namespace DurationHelper.Providers {
         public static async Task<TimeSpan?> GetChunklistDurationAsync(Uri url) {
             if (url == null) throw new ArgumentNullException();
 
-            return await HlsDurationProvider.ChunklistProvider.GetDurationAsync(url);
+            return await new ChunklistDurationProvider().GetDurationAsync(url);
         }
 
         public static async Task<TimeSpan?> GetChunklistDurationAsync(TextReader reader) {

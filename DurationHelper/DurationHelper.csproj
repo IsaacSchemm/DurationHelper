@@ -13,15 +13,15 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageReleaseNotes></PackageReleaseNotes>
     <Description>A .NET library to get duration of a video from its URL. Supports MP4, HLS (VOD), YouTube and Twitch (if you provide API keys), Vimeo, Dailymotion, and SoundCloud.</Description>
-    <Version>3.0.0-beta1</Version>
+    <Version>3.0.0-beta2</Version>
     <AssemblyVersion>2.1.0.0</AssemblyVersion>
     <FileVersion>2.1.0.0</FileVersion>
     <IsPublishable>True</IsPublishable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ISchemm.DurationFinder" Version="1.0.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="ISchemm.DurationFinder" Version="4.1.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
 </Project>

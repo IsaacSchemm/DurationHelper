@@ -107,6 +107,11 @@ namespace DurationHelper.Tests {
         }
 
         [TestMethod]
+        public async Task TestTwitch() {
+            await TestUrl(11371, "https://www.twitch.tv/videos/1413747455");
+        }
+
+        [TestMethod]
         public async Task TestDailymotion_1() {
             await TestUrl(56, "http://www.dailymotion.com/video/x6h5cqp");
         }

@@ -7,7 +7,7 @@ namespace DurationHelper.Providers {
     [Obsolete]
     public static class MP4 {
         public static async Task<TimeSpan?> GetDurationAsync(Stream stream) {
-            return await new MP4DurationProvider().GetDurationAsync(stream);
+            return await new MP4DurationProvider().GetDurationAsync(new StreamDataSource(stream));
         }
 
         public static async Task<TimeSpan?> GetDurationAsync(byte[] data) {

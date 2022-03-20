@@ -4,7 +4,7 @@ https://www.nuget.org/packages/DurationHelper
 
 DurationHelper is a .NET Standard library that does its best to determine the duration of a video when given its URL.
 
-**This library is now deprecated; version 3.x is a wrapper around [DurationFinder](https://www.nuget.org/packages/ISchemm.DurationFinder), albeit with Twitch support added.**
+**This library is now deprecated; version 3.x is a wrapper around [DurationFinder](https://www.nuget.org/packages/ISchemm.DurationFinder).**
 
 ## Usage
 
@@ -20,8 +20,8 @@ accurate to the nearest second.
 Parameters:
 
 * **url**: A public URL pointing to an MP4, HLS, YouTube, Dailymotion, Twitch, or Vimeo video, or a SoundCloud post
-* **youTubeKey**: A YouTube Data API v3 key. If not provided, all YouTube URLs will return a duration of null, as if they were not recognized.
-* **twitchCredentials**: Twitch API keys. If not provided, all Twitch URLs will return a duration of null, as if they were not recognized.
+* **youTubeKey**: Ignored. YouTube lookups no longer use the API.
+* **twitchCredentials**: Ignored. Twitch lookups no longer use the API.
 
 Returns the duration, or null if the duration could not be determined.
 
@@ -35,8 +35,8 @@ Parameters:
 
 * **provider**: The provider as given by [jsVideoUrlParser](https://github.com/Zod-/jsVideoUrlParser). Currently supported providers are "youtube", "dailymotion", "twitch", and "vimeo".
 * **id**: The ID of the video.
-* **youTubeKey**: A YouTube Data API v3 key. If not provided, all YouTube URLs will return a duration of null, as if they were not recognized.
-* **twitchCredentials**: Twitch API keys. If not provided, all Twitch URLs will return a duration of null, as if they were not recognized.
+* **youTubeKey**: Ignored. YouTube lookups no longer use the API.
+* **twitchCredentials**: Ignored. Twitch lookups no longer use the API.
 
 Returns the duration, or null if the duration could not be determined.
 
